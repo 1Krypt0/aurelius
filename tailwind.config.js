@@ -5,6 +5,9 @@ export default {
 		extend: {
 			colors: {
 				gold: '#b29e66'
+			},
+			gridTemplateRows: {
+				layout: 'auto 1fr auto'
 			}
 		}
 	},
