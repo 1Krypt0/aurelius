@@ -4,7 +4,7 @@
 	import Footer from './footer.svelte';
 </script>
 
-<div class="min-h-full grid grid-rows-layout">
+<div class="min-h-screen grid grid-rows-layout">
 	<Header />
 	<main>
 		<slot />
