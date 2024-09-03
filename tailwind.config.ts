@@ -57,6 +57,9 @@ const config: Config = {
 			fontFamily: {
 				sans: [...fontFamily.sans],
 				headers: ['Playfair Display', ...fontFamily.serif]
+			},
+			gridTemplateRows: {
+				layout: 'auto 1fr auto'
 			}
 		}
 	}

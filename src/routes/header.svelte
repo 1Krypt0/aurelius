@@ -1,29 +1,23 @@
 <script lang="ts">
 	import logo from '$lib/assets/Aurelius.svg';
-	import user from '$lib/assets/user.svg';
 </script>
 
-<div class="bg-white text-black flex justify-between items-center bottom-0 left-0">
-	<div class="flex justify-center gap-16 flex-1 mr-auto">
-		<div>
-			<a href="/auctions" class="pl-20 font-normal text-2xl">Auctions</a>
-		</div>
+<nav class="flex items-center justify-between border-b border-b-border py-4">
+	<a
+		class="mx-auto flex flex-1 justify-center font-headers text-2xl hover:underline"
+		href="/auctions"
+	>
+		Auctions
+	</a>
 
-		<div class="pl-32">
-			<a href="/store" class="font-normal text-2xl">Buy Now</a>
-		</div>
-	</div>
+	<a class="flex flex-1 justify-center" href="/">
+		<img src={logo} alt="Logo" class="h-28" />
+	</a>
 
-	<div class="flex flex-1 justify-center">
-		<a href="/home">
-			<img src={logo} alt="Logo" class="h-36" />
-		</a>
-	</div>
-
-	<div class="flex flex-1 ml-auto justify-center">
-		<img src={user} alt="User" class="px-2" />
-		<a href="/login">
-			<p class="font-normal text-2xl">Login/Sign in</p>
-		</a>
-	</div>
-</div>
+	<a
+		href="/login"
+		class="mx-auto flex flex-1 items-center justify-center gap-4 font-headers text-2xl hover:underline"
+	>
+		Log in/Sign up
+	</a>
+</nav>
