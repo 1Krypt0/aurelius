@@ -1,7 +1,7 @@
 import { fontFamily } from 'tailwindcss/defaultTheme';
+import type { Config } from 'tailwindcss';
 
-/** @type {import('tailwindcss').Config} */
-const config = {
+const config: Config = {
 	darkMode: ['class'],
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	safelist: ['dark'],
@@ -14,11 +14,7 @@ const config = {
 			}
 		},
 		extend: {
-			gridTemplateRows: {
-				layout: 'auto 1fr auto'
-			},
 			colors: {
-				gold: '#b29e66',
 				border: 'hsl(var(--border) / <alpha-value>)',
 				input: 'hsl(var(--input) / <alpha-value>)',
 				ring: 'hsl(var(--ring) / <alpha-value>)',
@@ -59,7 +55,8 @@ const config = {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans]
+				sans: [...fontFamily.sans],
+				headers: ['Playfair Display', ...fontFamily.serif]
 			}
 		}
 	}
