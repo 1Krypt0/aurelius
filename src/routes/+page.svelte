@@ -1,3 +1,27 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<h1 class="text-3xl font-bold underline">Hello world from this page!</h1>
+<script lang="ts">
+	import { Separator } from '$lib/components/ui/separator';
+</script>
+
+<section class="flex items-center justify-between">
+	<h1 class="font-headers text-3xl font-bold">Last Minute Deals</h1>
+	<a href="/auctions" class="self-end hover:underline">View all</a>
+</section>
+<Separator class="my-4" />
+
+<section class="flex items-center justify-between">
+	<h1 class="font-headers text-3xl font-bold">Hot Products</h1>
+	<a href="/auctions" class="self-end hover:underline">View all</a>
+</section>
+<Separator class="my-4" />
+
+<section class="flex items-center justify-between">
+	<h1 class="font-headers text-3xl font-bold">Latest Auctions</h1>
+	<a href="/auctions" class="self-end hover:underline">View all</a>
+</section>
+<Separator class="my-4" />
+
+<section class="flex items-center justify-between">
+	<h1 class="font-headers text-3xl font-bold">Upcoming Auctions</h1>
+	<a href="/auctions" class="self-end hover:underline">View all</a>
+</section>
+<Separator class="my-4" />
