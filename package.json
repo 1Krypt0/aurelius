@@ -47,6 +47,7 @@
 	"type": "module",
 	"dependencies": {
 		"@lucia-auth/adapter-drizzle": "^1.1.0",
+		"@neondatabase/serverless": "^0.9.5",
 		"@xata.io/client": "^0.30.0",
 		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",

@@ -8,6 +8,6 @@ export default defineConfig({
 		prefix: 'timestamp'
 	},
 	dbCredentials: {
-		url: process.env.XATA_DATABASE_URL!
+		url: process.env.NEON_DATABASE_URL!
 	}
 });
