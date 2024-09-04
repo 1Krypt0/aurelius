@@ -18,7 +18,7 @@ export const productTable = pgTable('product', {
 });
 
 export const bidTable = pgTable('bid', {
-	id: integer('id').primaryKey().generatedByDefaultAsIdentity({ startWith: 0 }),
+	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
 	value: real('value').notNull()
 });
 

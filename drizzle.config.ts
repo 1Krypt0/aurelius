@@ -7,7 +7,6 @@ export default defineConfig({
 	migrations: {
 		prefix: 'timestamp'
 	},
-	strict: true,
 	dbCredentials: {
 		url: process.env.XATA_DATABASE_URL!
 	}
