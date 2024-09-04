@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Tiago-Rodrigues-s-workspace-k7s18o.eu-west-1.xata.sh/db/Aurelius",
+  "codegen": {
+    "output": "src/database/xata.ts"
+  }
+}

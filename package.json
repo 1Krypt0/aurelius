@@ -22,6 +22,8 @@
 		"@tailwindcss/typography": "^0.5.14",
 		"@types/eslint": "^9.6.0",
 		"autoprefixer": "^10.4.20",
+		"bun-types": "^1.1.26",
+		"drizzle-kit": "^0.24.2",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
@@ -41,9 +43,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@xata.io/client": "^0.30.0",
 		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",
+		"drizzle-orm": "^0.33.0",
 		"lucide-svelte": "^0.438.0",
+		"pg": "^8.12.0",
 		"tailwind-merge": "^2.5.2",
 		"tailwind-variants": "^0.2.1"
 	}
