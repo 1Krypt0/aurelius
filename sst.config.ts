@@ -13,7 +13,10 @@ export default $config({
 			public: true
 		});
 		new sst.aws.SvelteKit('Aurelius', {
-			link: [bucket]
+			link: [bucket],
+			environment: {
+				NEON_DATABASE_URL: process.env.NEON_DATABASE_URL!
+			}
 		});
 	}
 });
