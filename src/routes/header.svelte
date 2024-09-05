@@ -16,8 +16,8 @@
 
 		<div class="flex grow basis-0 justify-end">
 			<a href="/login" class="font-headers text-3xl text-foreground hover:underline">
-				Tiago Rodrigues
-			</a>
+				Login/Sign up</a
+			>
 		</div>
 	</nav>
 </header>
