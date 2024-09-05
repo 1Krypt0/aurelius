@@ -12,14 +12,17 @@ import { userTable } from '../../../database/schema';
 import { lucia } from '$lib/server/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
+import { z } from 'zod';
 
 const registerSchema = createInsertSchema(userTable, {
 	email: (schema) => schema.email.email()
-}).pick({
-	name: true,
-	email: true,
-	password: true
-});
+})
+	.pick({
+		name: true,
+		email: true,
+		password: true
+	})
+	.and(z.object({ passwordConfirmation: z.string() }));
 
 export const load: PageServerLoad = async () => {
 	const form = await superValidate(zod(registerSchema));
@@ -29,7 +32,7 @@ export const load: PageServerLoad = async () => {
 	};
 };
 
-export const actions = {
+export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const form = await superValidate(request, zod(registerSchema));
 
@@ -37,14 +40,14 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		const data = form.data;
-
-		const email = data.email;
-		const name = data.name;
-		const password = data.password;
+		const { email, name, password, passwordConfirmation } = form.data;
 
 		// 32 character ID (128 bits)
 		const id = generateIdFromEntropySize(20);
+
+		if (password !== passwordConfirmation) {
+			return setError(form, 'passwordConfirmation', 'Passwords must match');
+		}
 
 		const passwordHash = await hash(password, {
 			memoryCost: 19456,
@@ -78,4 +81,4 @@ export const actions = {
 
 		return redirect(302, '/');
 	}
-} satisfies Actions;
+};

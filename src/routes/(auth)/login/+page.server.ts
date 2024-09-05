@@ -30,8 +30,7 @@ export const actions: Actions = {
 			return fail(400, { form, invalid: true, message: 'Invalid Login data' });
 		}
 
-		const email = form.data.email;
-		const password = form.data.password;
+		const { email, password } = form.data;
 
 		const user = await db.select().from(userTable).where(eq(userTable.email, email));
 

@@ -7,7 +7,9 @@
 
 	export let data: PageServerData;
 
-	const form = superForm(data.form);
+	const form = superForm(data.form, {
+		dataType: 'json'
+	});
 	const { form: formData, enhance } = form;
 </script>
 
@@ -45,6 +47,20 @@
 						placeholder="Your Password"
 						required
 						bind:value={$formData.password}
+					/>
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+
+			<Form.Field {form} name="passwordConfirmation" class="grid gap-2">
+				<Form.Control let:attrs>
+					<Form.Label>Confirm your Password</Form.Label>
+					<Input
+						{...attrs}
+						type="password"
+						placeholder="Confirm your Password"
+						required
+						bind:value={$formData.passwordConfirmation}
 					/>
 				</Form.Control>
 				<Form.FieldErrors />
