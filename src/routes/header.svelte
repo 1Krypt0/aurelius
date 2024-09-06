@@ -12,10 +12,8 @@
 <header class="flex justify-center border-b border-b-border py-4">
 	<nav class="flex w-4/5 items-center md:justify-between">
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger asChild let:builder>
-				<Button class="md:hidden" variant="link" builders={[builder]}>
-					<Menu />
-				</Button>
+			<DropdownMenu.Trigger>
+				<Menu class="text-primary md:hidden" />
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
 				<DropdownMenu.Item>
