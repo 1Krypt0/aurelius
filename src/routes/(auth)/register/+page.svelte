@@ -13,7 +13,7 @@
 	const { form: formData, enhance } = form;
 </script>
 
-<div class="mx-auto flex w-1/3 flex-col justify-center">
+<div class="mx-auto flex w-[310px] flex-col justify-center">
 	<h1 class="pb-6 text-center font-headers text-3xl">Create an account</h1>
 
 	<form method="post" use:enhance>
