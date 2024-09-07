@@ -18,6 +18,7 @@ export const productTable = pgTable('product', {
 });
 
 export type InsertProduct = typeof productTable.$inferInsert;
+export type SelectProduct = typeof productTable.$inferSelect;
 
 export const bidTable = pgTable('bid', {
 	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
