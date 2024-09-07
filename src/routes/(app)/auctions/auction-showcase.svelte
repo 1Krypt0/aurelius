@@ -9,12 +9,12 @@
 	const buttonVal = auction.startDate <= new Date() ? 'Bid' : 'Preview';
 
 	const startDay = new Intl.DateTimeFormat(undefined, {
-		month: 'long',
+		month: 'short',
 		day: 'numeric'
 	}).format(auction.startDate);
 
 	const endDay = new Intl.DateTimeFormat(undefined, {
-		month: 'long',
+		month: 'short',
 		year: 'numeric',
 		day: '2-digit'
 	}).format(auction.endDate);
@@ -34,12 +34,14 @@
 				<Carousel.Item class="w-full">
 					<div class="p-1">
 						<Card.Root>
-							<Card.Content class="flex h-[400px] w-full items-center justify-center p-6">
-								<img
-									src={`https://picsum.photos/id/${genRandom(0, 300)}/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
-									alt="Product Showcase"
-									class="max-h-full"
-								/>
+							<Card.Content class="flex aspect-square w-full items-center justify-center p-6">
+								<a href={`/auctions/${auction.id}`} class="contents">
+									<img
+										src={`https://picsum.photos/id/${genRandom(0, 300)}/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
+										alt="Product Showcase"
+										class="max-h-full"
+									/>
+								</a>
 							</Card.Content>
 						</Card.Root>
 					</div>
@@ -51,9 +53,9 @@
 	</Carousel.Root>
 
 	<p class="truncate">{auction.name}</p>
-	<div class="">
+	<p class="truncate">
 		{startDay} - {endDay} | {endHour}
-	</div>
+	</p>
 	<div class="flex items-center justify-between">
 		<p>Price: {auction.price}€</p>
 		<Button class="w-1/2" href={`/auction/${auction.id}`}>
