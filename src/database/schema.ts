@@ -17,6 +17,8 @@ export const productTable = pgTable('product', {
 	endDate: timestamp('end_date', { withTimezone: true }).notNull()
 });
 
+export type InsertProduct = typeof productTable.$inferInsert;
+
 export const bidTable = pgTable('bid', {
 	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
 	value: real('value').notNull()
