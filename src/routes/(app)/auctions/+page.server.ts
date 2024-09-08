@@ -12,8 +12,6 @@ export const load: PageServerLoad = async () => {
 		.where(gt(productTable.endDate, now))
 		.orderBy(productTable.endDate);
 
-	console.log(auctions);
-
 	return {
 		auctions
 	};

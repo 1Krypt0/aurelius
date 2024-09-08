@@ -3,10 +3,14 @@
 	import * as Carousel from '$lib/components/ui/carousel';
 	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
-	import { AspectRatio } from '$lib/components/ui/aspect-ratio';
+
 	export let auction: SelectProduct;
 
-	const buttonVal = auction.startDate <= new Date() ? 'Bid' : 'Preview';
+	const now = new Date();
+	const buttonVal = auction.startDate <= now ? 'Bid' : 'Preview';
+	const pricePrefix = auction.startDate <= now ? 'Current' : 'Starting';
+
+	const auctionLink = `/auctions/${auction.id}`;
 
 	const startDay = new Intl.DateTimeFormat(undefined, {
 		month: 'short',
@@ -35,7 +39,7 @@
 					<div class="p-1">
 						<Card.Root>
 							<Card.Content class="flex aspect-square w-full items-center justify-center p-6">
-								<a href={`/auctions/${auction.id}`} class="contents">
+								<a href={auctionLink} class="contents">
 									<img
 										src={`https://picsum.photos/id/${genRandom(0, 300)}/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
 										alt="Product Showcase"
@@ -52,13 +56,13 @@
 		<Carousel.Next />
 	</Carousel.Root>
 
-	<p class="truncate">{auction.name}</p>
+	<a class="truncate hover:underline" href={auctionLink}>{auction.name}</a>
 	<p class="truncate">
 		{startDay} - {endDay} | {endHour}
 	</p>
 	<div class="flex items-center justify-between">
-		<p>Price: {auction.price}€</p>
-		<Button class="w-1/2" href={`/auction/${auction.id}`}>
+		<p>{pricePrefix} Price: {auction.price}€</p>
+		<Button class="w-1/2" href={auctionLink}>
 			{buttonVal}
 		</Button>
 	</div>
