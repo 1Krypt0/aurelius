@@ -43,7 +43,7 @@
 					<div class="p-1">
 						<Card.Root>
 							<Card.Content
-								class="flex aspect-square w-full items-center justify-center p-6 lg:aspect-video"
+								class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6 lg:aspect-video"
 							>
 								<img
 									src={`https://picsum.photos/id/${genRandom(0, 300)}/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
