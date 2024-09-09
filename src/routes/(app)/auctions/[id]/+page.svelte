@@ -40,19 +40,17 @@
 		<Carousel.Content>
 			{#each [0, 1, 2, 3, 4, 5] as i (i)}
 				<Carousel.Item class="w-full">
-					<div class="p-1">
-						<Card.Root>
-							<Card.Content
-								class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6 lg:aspect-video"
-							>
-								<img
-									src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
-									alt="Product Showcase"
-									class="max-h-full"
-								/>
-							</Card.Content>
-						</Card.Root>
-					</div>
+					<Card.Root>
+						<Card.Content
+							class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6 lg:aspect-video"
+						>
+							<img
+								src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
+								alt="Product Showcase"
+								class="max-h-full"
+							/>
+						</Card.Content>
+					</Card.Root>
 				</Carousel.Item>
 			{/each}
 		</Carousel.Content>
