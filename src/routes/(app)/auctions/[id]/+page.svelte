@@ -42,12 +42,12 @@
 				<Carousel.Item class="w-full">
 					<Card.Root>
 						<Card.Content
-							class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6 lg:aspect-video"
+							class="flex aspect-square max-h-[350px] w-full items-center justify-center  p-6 lg:aspect-video"
 						>
 							<img
 								src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
 								alt="Product Showcase"
-								class="max-h-full"
+								class="max-h-full max-w-full object-scale-down"
 							/>
 						</Card.Content>
 					</Card.Root>
