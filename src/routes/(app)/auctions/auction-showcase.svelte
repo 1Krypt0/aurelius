@@ -43,7 +43,7 @@
 							>
 								<a href={auctionLink} class="contents">
 									<img
-										src={`https://picsum.photos/id/${genRandom(0, 300)}/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
+										src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
 										alt="Product Showcase"
 										class="max-h-full"
 									/>
