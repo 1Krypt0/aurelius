@@ -3,18 +3,24 @@
 	import * as Carousel from '$lib/components/ui/carousel';
 	import * as Card from '$lib/components/ui/card';
 	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Form from '$lib/components/ui/form';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
+	import { superForm } from 'sveltekit-superforms';
 
 	export let data: PageServerData;
 
-	const auction = data.auction;
+	const form = superForm(data.form);
+	const { form: formData, enhance } = form;
+
+	$: auction = data.auction;
 	const user = data.user;
 
 	const now = new Date();
+
 	const pricePrefix = auction?.startDate <= now ? 'Current' : 'Starting';
+	$: priceIncrease = Math.round((auction?.price * 1.1 + Number.EPSILON) * 100) / 100;
 
 	const startDay = new Intl.DateTimeFormat(undefined, {
 		month: 'short',
@@ -71,23 +77,27 @@
 			<Dialog.Root>
 				<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>Place Bid</Dialog.Trigger>
 				<Dialog.Content class="sm:max-w-[450px]">
-					<Dialog.Header>
-						<Dialog.Title>Place your Bid</Dialog.Title>
-						<Dialog.Description>
-							By making a Bid, you are commited to buy this item if you are the winning bidder.
-						</Dialog.Description>
-					</Dialog.Header>
-					<div class="flex gap-4 py-4">
-						<div class="grid grid-cols-4 items-center gap-4">
-							<Label for="price" class="col-span-1">Amount</Label>
-							<Input id="price" class="col-span-3" />
-							<p class="col-span-4 text-sm text-muted-foreground">
-								Enter EUR {auction?.price * 1.1} or more
-							</p>
-						</div>
-
-						<Button type="submit" class="w-28">Bid</Button>
-					</div>
+					<form method="post" use:enhance>
+						<Dialog.Header>
+							<Dialog.Title>Place your Bid</Dialog.Title>
+							<Dialog.Description>
+								By making a Bid, you are commited to buy this item if you are the winning bidder.
+							</Dialog.Description>
+						</Dialog.Header>
+						<Form.Field {form} name="value">
+							<Form.Control let:attrs>
+								<div class="flex items-center gap-4 py-4">
+									<Form.Label>Amount</Form.Label>
+									<Input {...attrs} placeholder="0" required bind:value={$formData.value} />
+									<Form.Button type="submit" class="w-28">Bid</Form.Button>
+								</div>
+							</Form.Control>
+							<Form.FieldErrors />
+							<Form.Description>
+								Enter EUR {priceIncrease} or more
+							</Form.Description>
+						</Form.Field>
+					</form>
 				</Dialog.Content>
 			</Dialog.Root>
 		{:else}
