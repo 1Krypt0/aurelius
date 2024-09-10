@@ -15,6 +15,7 @@
 	const { form: formData, enhance } = form;
 
 	$: auction = data.auction;
+	$: bids = data.bids;
 	const user = data.user;
 
 	const now = new Date();
@@ -71,7 +72,7 @@
 			{startDay} - {endDay} | {endHour}
 		</p>
 		<div class="flex items-center justify-between">
-			<p>{pricePrefix} Price: {auction?.price}€</p>
+			<p>{pricePrefix} Price: {auction?.price}€ ({bids.length} bids)</p>
 		</div>
 		{#if auction?.endDate <= now}
 			<Button disabled variant="destructive">Auction has ended</Button>
