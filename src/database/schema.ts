@@ -14,15 +14,31 @@ export const productTable = pgTable('product', {
 	description: text('description').notNull(),
 	price: real('price').notNull(),
 	startDate: timestamp('start_date', { withTimezone: true }).notNull(),
-	endDate: timestamp('end_date', { withTimezone: true }).notNull()
+	endDate: timestamp('end_date', { withTimezone: true }).notNull(),
+	sold: boolean('sold').notNull().default(false),
+	userId: text('user_id').references(() => userTable.id)
 });
 
 export type InsertProduct = typeof productTable.$inferInsert;
 export type SelectProduct = typeof productTable.$inferSelect;
 
+export const imageTable = pgTable('image', {
+	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
+	url: text('url').notNull().unique(),
+	productId: text('product_id')
+		.notNull()
+		.references(() => productTable.id)
+});
+
 export const bidTable = pgTable('bid', {
 	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
-	value: real('value').notNull()
+	value: real('value').notNull(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => userTable.id),
+	productId: text('product_id')
+		.notNull()
+		.references(() => productTable.id)
 });
 
 export const sessionTable = pgTable('session', {
