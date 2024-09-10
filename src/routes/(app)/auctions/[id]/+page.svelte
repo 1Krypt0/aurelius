@@ -73,7 +73,11 @@
 		<div class="flex items-center justify-between">
 			<p>{pricePrefix} Price: {auction?.price}€</p>
 		</div>
-		{#if user}
+		{#if auction?.endDate <= now}
+			<Button disabled variant="destructive">Auction has ended</Button>
+		{:else if !user}
+			<Button href="/login">Register to Bid</Button>
+		{:else if user && auction?.startDate <= now}
 			<Dialog.Root>
 				<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>Place Bid</Dialog.Trigger>
 				<Dialog.Content class="sm:max-w-[450px]">
@@ -100,8 +104,6 @@
 					</form>
 				</Dialog.Content>
 			</Dialog.Root>
-		{:else}
-			<Button href="/login">Register to Bid</Button>
 		{/if}
 	</aside>
 </section>
