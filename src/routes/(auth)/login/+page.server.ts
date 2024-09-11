@@ -50,7 +50,8 @@ export const actions: Actions = {
 		});
 
 		if (!validPassword) {
-			return fail(400, { form, incorrect: true, message: 'Incorrect email or password' });
+			setError(form, 'password', 'Incorrect email or password');
+			return setError(form, 'email', 'Incorrect email or password');
 		}
 
 		const session = await lucia.createSession(user[0].id, {});
