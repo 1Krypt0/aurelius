@@ -2,7 +2,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
 	import logo from '$lib/assets/Aurelius.svg';
-	import { Menu, Settings, UserIcon, LogOut } from 'lucide-svelte';
+	import { Menu, Landmark, UserIcon, LogOut } from 'lucide-svelte';
 
 	import type { User } from 'lucia';
 
@@ -28,12 +28,16 @@
 							</DropdownMenu.SubTrigger>
 							<DropdownMenu.SubContent>
 								<DropdownMenu.Item>
-									<UserIcon class="mr-2 h-4 w-4" />
-									<span>Profile</span>
+									<a href={`/users/${user.id}/auctions`} class="flex items-center">
+										<Landmark class="mr-2 h-4 w-4" />
+										<span>My Auctions</span>
+									</a>
 								</DropdownMenu.Item>
 								<DropdownMenu.Item>
-									<Settings class="mr-2 h-4 w-4" />
-									<span>Settings</span>
+									<a href={`/users/${user.id}`} class="flex items-center">
+										<UserIcon class="mr-2 h-4 w-4" />
+										<span>Profile</span>
+									</a>
 								</DropdownMenu.Item>
 								<DropdownMenu.Item>
 									<LogOut class="mr-2 h-4 w-4" />
@@ -74,11 +78,22 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content class="w-72">
 						<DropdownMenu.Group>
-							<DropdownMenu.Item>Profile</DropdownMenu.Item>
-							<DropdownMenu.Item>Settings</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								<a href={`/users/${user.id}/auctions`} class="flex items-center">
+									<Landmark class="mr-2 h-4 w-4" />
+									<span>My Auctions</span>
+								</a>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item>
+								<a href={`/users/${user.id}`} class="flex items-center">
+									<UserIcon class="mr-2 h-4 w-4" />
+									<span>Profile</span>
+								</a>
+							</DropdownMenu.Item>
 						</DropdownMenu.Group>
 						<DropdownMenu.Separator />
 						<DropdownMenu.Item>
+							<LogOut class="mr-2 h-4 w-4" />
 							<form action="/logout" method="post">
 								<button type="submit">Logout</button>
 							</form>

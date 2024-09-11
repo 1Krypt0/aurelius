@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SimpleHeader from './simple-header.svelte';
+	import SimpleHeader from '../simple-header.svelte';
 </script>
 
 <div class="grid min-h-screen grid-rows-layout">
