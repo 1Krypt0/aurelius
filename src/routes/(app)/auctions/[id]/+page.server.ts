@@ -2,7 +2,7 @@ import { desc, eq } from 'drizzle-orm';
 import db from '../../../../database/drizzle';
 import { bidTable, productTable } from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -16,13 +16,14 @@ const bidSchema = createInsertSchema(bidTable, {
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const auction = await db.select().from(productTable).where(eq(productTable.id, params.id));
+
+	if (auction.length === 0) {
+		return error(404, 'Auction not found');
+	}
+
 	const bids = await db.select().from(bidTable).where(eq(bidTable.productId, params.id));
 
 	const form = await superValidate(zod(bidSchema));
-
-	if (auction.length != 1) {
-		return redirect(302, '/404');
-	}
 
 	return {
 		auction: auction.at(0),
@@ -35,9 +36,6 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 export const actions: Actions = {
 	default: async ({ request, params, locals }) => {
 		const form = await superValidate(request, zod(bidSchema));
-
-		console.log(params.id);
-		console.log(locals.user);
 
 		if (!form.valid) {
 			return fail(400, { form });
@@ -76,5 +74,7 @@ export const actions: Actions = {
 
 			await db.update(productTable).set({ price: value }).where(eq(productTable.id, params.id));
 		}
+
+		return { form };
 	}
 };
