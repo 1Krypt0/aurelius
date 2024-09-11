@@ -6,7 +6,7 @@
 
 	export let data: LayoutServerData;
 
-	const user = data.user;
+	$: user = data.user;
 </script>
 
 <div class="grid min-h-screen grid-rows-layout">
