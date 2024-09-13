@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.css';
 	import { Header } from '$lib/components/header';
-	import Footer from '../footer.svelte';
+	import { Footer } from '$lib/components/footer';
 	import type { LayoutServerData } from './$types';
 
 	export let data: LayoutServerData;
