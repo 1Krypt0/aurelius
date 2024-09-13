@@ -22,8 +22,10 @@
 		year: 'numeric',
 		day: '2-digit'
 	}).format(auction.endDate);
+
 	const endHour = new Intl.DateTimeFormat(undefined, {
-		hour: 'numeric'
+		hour: 'numeric',
+		minute: 'numeric'
 	}).format(auction.endDate);
 
 	const genRandom = (min: number, max: number): number => {

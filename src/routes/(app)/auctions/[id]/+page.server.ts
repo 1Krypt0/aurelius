@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const form = await superValidate(zod(bidSchema));
 
 	return {
-		auction: auction.at(0),
+		auction: auction[0],
 		user: locals.user,
 		bids,
 		form

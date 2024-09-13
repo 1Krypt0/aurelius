@@ -15,27 +15,30 @@
 	const { form: formData, enhance } = form;
 
 	$: auction = data.auction;
+
 	$: bids = data.bids;
 	const user = data.user;
 
 	const now = new Date();
 
-	const pricePrefix = auction?.startDate <= now ? 'Current' : 'Starting';
-	$: priceIncrease = Math.round((auction?.price * 1.1 + Number.EPSILON) * 100) / 100;
+	$: pricePrefix = auction.startDate <= now ? 'Current' : 'Starting';
+	$: priceIncrease = Math.round((auction.price * 1.1 + Number.EPSILON) * 100) / 100;
 
-	const startDay = new Intl.DateTimeFormat(undefined, {
+	$: startDay = new Intl.DateTimeFormat(undefined, {
 		month: 'short',
 		day: 'numeric'
-	}).format(auction?.startDate);
+	}).format(auction.startDate);
 
-	const endDay = new Intl.DateTimeFormat(undefined, {
+	$: endDay = new Intl.DateTimeFormat(undefined, {
 		month: 'short',
 		year: 'numeric',
 		day: '2-digit'
-	}).format(auction?.endDate);
-	const endHour = new Intl.DateTimeFormat(undefined, {
-		hour: 'numeric'
-	}).format(auction?.endDate);
+	}).format(auction.endDate);
+
+	$: endHour = new Intl.DateTimeFormat(undefined, {
+		hour: 'numeric',
+    minute: 'numeric'
+	}).format(auction.endDate);
 
 	const genRandom = (min: number, max: number): number => {
 		return min + Math.floor(Math.random() * max);
@@ -65,20 +68,20 @@
 		<Carousel.Next />
 	</Carousel.Root>
 
-	<aside class="flex flex-col gap-4 md:pt-12">
-		<p class="font-headers text-xl">{auction?.name}</p>
+	<aside class="flex flex-col gap-4 md:w-1/3 md:pt-12">
+		<p class="font-headers text-xl">{auction.name}</p>
 
 		<p class="truncate">
 			{startDay} - {endDay} | {endHour}
 		</p>
 		<div class="flex items-center justify-between">
-			<p>{pricePrefix} Price: {auction?.price}€ ({bids.length} bids)</p>
+			<p>{pricePrefix} Price: {auction.price}€ ({bids.length} bids)</p>
 		</div>
-		{#if auction?.endDate <= now}
+		{#if auction.endDate <= now}
 			<Button disabled variant="destructive">Auction has ended</Button>
 		{:else if !user}
 			<Button href="/login">Register to Bid</Button>
-		{:else if user && auction?.startDate <= now}
+		{:else if user && auction.startDate <= now}
 			<Dialog.Root>
 				<Dialog.Trigger class={buttonVariants({ variant: 'default' })}>Place Bid</Dialog.Trigger>
 				<Dialog.Content class="sm:max-w-[450px]">
@@ -112,7 +115,7 @@
 <section class="flex flex-col pt-12">
 	<section>
 		<h2 class="pb-8 font-headers text-2xl">Description</h2>
-		<p>{auction?.description}</p>
+		<p>{auction.description}</p>
 	</section>
 	<Separator class="my-8" />
 </section>
