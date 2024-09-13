@@ -2,7 +2,8 @@
 	import type { PageServerData } from './$types';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Form from '$lib/components/ui/form';
-	import { AuctionImages } from '$lib/components/auction/';
+	import { AuctionImages, AuctionInfo } from '$lib/components/auction/';
+
 	import { Separator } from '$lib/components/ui/separator';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -10,34 +11,16 @@
 
 	export let data: PageServerData;
 
+	const now = new Date();
+
 	const form = superForm(data.form);
 	const { form: formData, enhance } = form;
 
-	$: auction = data.auction;
-
-	$: bids = data.bids;
 	const user = data.user;
 
-	const now = new Date();
-
-	$: pricePrefix = auction.startDate <= now ? 'Current' : 'Starting';
+	$: auction = data.auction;
+	$: bidAmount = data.bids.length;
 	$: priceIncrease = Math.round((auction.price * 1.1 + Number.EPSILON) * 100) / 100;
-
-	$: startDay = new Intl.DateTimeFormat(undefined, {
-		month: 'short',
-		day: 'numeric'
-	}).format(auction.startDate);
-
-	$: endDay = new Intl.DateTimeFormat(undefined, {
-		month: 'short',
-		year: 'numeric',
-		day: '2-digit'
-	}).format(auction.endDate);
-
-	$: endHour = new Intl.DateTimeFormat(undefined, {
-		hour: 'numeric',
-		minute: 'numeric'
-	}).format(auction.endDate);
 </script>
 
 <section class="flex flex-col gap-12 md:flex-row md:gap-24">
@@ -46,14 +29,14 @@
 	</div>
 
 	<aside class="flex flex-col gap-4 md:w-1/3 md:pt-12">
-		<p class="font-headers text-xl">{auction.name}</p>
-
-		<p class="truncate">
-			{startDay} - {endDay} | {endHour}
-		</p>
-		<div class="flex items-center justify-between">
-			<p>{pricePrefix} Price: {auction.price}€ ({bids.length} bids)</p>
-		</div>
+		<AuctionInfo
+			name={auction.name}
+			startDate={auction.startDate}
+			endDate={auction.endDate}
+			price={auction.price}
+			variant="detailed"
+			{bidAmount}
+		/>
 		{#if auction.endDate <= now}
 			<Button disabled variant="destructive">Auction has ended</Button>
 		{:else if !user}

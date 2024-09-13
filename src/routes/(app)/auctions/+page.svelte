@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import AuctionShowcase from './auction-showcase.svelte';
+	import { AuctionShowcase } from '$lib/components/auction';
 	import SearchBar from './search-bar.svelte';
 	// import DataFilters from './data-filters.svelte';
 

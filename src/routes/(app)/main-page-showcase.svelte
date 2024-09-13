@@ -2,7 +2,7 @@
 	import type { SelectProduct } from '../../database/schema';
 
 	import { Separator } from '$lib/components/ui/separator';
-	import AuctionShowcase from './auctions/auction-showcase.svelte';
+	import { AuctionShowcase } from '$lib/components/auction';
 
 	export let title: string;
 	export let auctions: SelectProduct[];
