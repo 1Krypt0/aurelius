@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../../app.css';
-	import Header from '../header.svelte';
+	import { Header } from '$lib/components/header';
 	import Footer from '../footer.svelte';
 	import type { LayoutServerData } from './$types';
 

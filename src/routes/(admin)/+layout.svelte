@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SimpleHeader from '../simple-header.svelte';
+	import { Header } from '$lib/components/header';
 </script>
 
-<SimpleHeader />
+<Header variant="simple" />

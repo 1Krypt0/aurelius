@@ -25,6 +25,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Field {form} name="email" class="grid gap-2">
 				<Form.Control let:attrs>
 					<Form.Label>Email</Form.Label>
@@ -38,6 +39,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Field {form} name="password" class="grid gap-2">
 				<Form.Control let:attrs>
 					<Form.Label>Password</Form.Label>
@@ -65,8 +67,10 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Button>Create an Account</Form.Button>
 		</div>
+
 		<div class="mt-4 text-center text-sm">
 			Already have an account?
 			<a href="/login" class="underline"> Sign in </a>

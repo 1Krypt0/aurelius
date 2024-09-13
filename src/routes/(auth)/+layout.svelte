@@ -1,9 +1,9 @@
 <script lang="ts">
-	import SimpleHeader from '../simple-header.svelte';
+	import { Header } from '$lib/components/header';
 </script>
 
 <div class="grid min-h-screen grid-rows-layout">
-	<SimpleHeader />
+	<Header variant="simple" />
 	<main class="mx-auto py-12">
 		<slot />
 	</main>
