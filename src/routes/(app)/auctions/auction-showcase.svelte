@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { SelectProduct } from '../../../database/schema';
-	import * as Carousel from '$lib/components/ui/carousel';
-	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
+	import { AuctionImages } from '$lib/components/auction';
 
 	export let auction: SelectProduct;
 
@@ -27,36 +26,10 @@
 		hour: 'numeric',
 		minute: 'numeric'
 	}).format(auction.endDate);
-
-	const genRandom = (min: number, max: number): number => {
-		return min + Math.floor(Math.random() * max);
-	};
 </script>
 
 <section class="flex flex-col gap-2">
-	<Carousel.Root class=" w-full">
-		<Carousel.Content>
-			{#each [0, 1, 2, 3, 4, 5] as i (i)}
-				<Carousel.Item class="w-full">
-					<Card.Root>
-						<Card.Content
-							class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6"
-						>
-							<a href={auctionLink} class="contents">
-								<img
-									src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
-									alt="Product Showcase"
-									class="max-h-full max-w-full object-scale-down"
-								/>
-							</a>
-						</Card.Content>
-					</Card.Root>
-				</Carousel.Item>
-			{/each}
-		</Carousel.Content>
-		<Carousel.Previous />
-		<Carousel.Next />
-	</Carousel.Root>
+	<AuctionImages {auctionLink} />
 
 	<a class="truncate hover:underline" href={auctionLink}>{auction.name}</a>
 	<p class="truncate">

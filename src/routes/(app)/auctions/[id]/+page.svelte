@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import * as Carousel from '$lib/components/ui/carousel';
-	import * as Card from '$lib/components/ui/card';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Form from '$lib/components/ui/form';
+	import { AuctionImages } from '$lib/components/auction/';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -37,36 +36,14 @@
 
 	$: endHour = new Intl.DateTimeFormat(undefined, {
 		hour: 'numeric',
-    minute: 'numeric'
+		minute: 'numeric'
 	}).format(auction.endDate);
-
-	const genRandom = (min: number, max: number): number => {
-		return min + Math.floor(Math.random() * max);
-	};
 </script>
 
 <section class="flex flex-col gap-12 md:flex-row md:gap-24">
-	<Carousel.Root class="md:w-1/2">
-		<Carousel.Content>
-			{#each [0, 1, 2, 3, 4, 5] as i (i)}
-				<Carousel.Item class="w-full">
-					<Card.Root>
-						<Card.Content
-							class="flex aspect-square max-h-[350px] w-full items-center justify-center  p-6 lg:aspect-video"
-						>
-							<img
-								src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
-								alt="Product Showcase"
-								class="max-h-full max-w-full object-scale-down"
-							/>
-						</Card.Content>
-					</Card.Root>
-				</Carousel.Item>
-			{/each}
-		</Carousel.Content>
-		<Carousel.Previous />
-		<Carousel.Next />
-	</Carousel.Root>
+	<div class="md:w-1/2">
+		<AuctionImages />
+	</div>
 
 	<aside class="flex flex-col gap-4 md:w-1/3 md:pt-12">
 		<p class="font-headers text-xl">{auction.name}</p>

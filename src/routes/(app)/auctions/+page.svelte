@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import AuctionShowcase from './auction-showcase.svelte';
+	import SearchBar from './search-bar.svelte';
 	// import DataFilters from './data-filters.svelte';
 
 	export let data: PageServerData;
@@ -12,7 +13,7 @@
 <!-- 	<DataFilters amount={auctions.length} /> -->
 <!-- </aside> -->
 <section class="mx-auto w-3/4">
-	<p class="pb-12 text-center">There will be a search bar here</p>
+	<SearchBar />
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 		{#each auctions as auction}
 			<AuctionShowcase {auction} />
