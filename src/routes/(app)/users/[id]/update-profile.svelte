@@ -22,6 +22,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Field {form} name="email" class="grid gap-2">
 				<Form.Control let:attrs>
 					<Form.Label>Email</Form.Label>
@@ -29,6 +30,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Button type="submit" class="w-full">Update Profile</Form.Button>
 		</div>
 	</form>
