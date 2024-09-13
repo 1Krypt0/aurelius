@@ -3,9 +3,8 @@ import db from '../../database/drizzle';
 import { bidTable, productTable } from '../../database/schema';
 import type { PageServerLoad } from './$types';
 
-export const SHOWCASE_LIMIT = 3;
-
 export const load: PageServerLoad = async () => {
+	const SHOWCASE_LIMIT = 3;
 	const now = new Date();
 	const twoDaysFromNow = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
 	const twoDaysAgo = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);

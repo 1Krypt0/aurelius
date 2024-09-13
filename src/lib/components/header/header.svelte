@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { User } from 'lucia';
-	import { Landmark, UserIcon, LogOut } from 'lucide-svelte';
+	import { Landmark, UserIcon, LogOut, ClipboardList } from 'lucide-svelte';
 	import NavMobile from './nav-mobile.svelte';
 	import logo from '$lib/assets/Aurelius.svg';
 	import NavAuth from './nav-auth.svelte';
 
 	export let user: User | null = null;
 	export let variant: 'simple' | 'full' = 'full';
+	export let isAdmin: boolean = false;
 
 	const links =
 		user && variant == 'full'
@@ -28,6 +29,20 @@
 					}
 				]
 			: undefined;
+
+	if (links && isAdmin) {
+		links.pop();
+		links.push({
+			link: '/admin',
+			icon: ClipboardList,
+			text: 'Inventory'
+		});
+		links.push({
+			link: '/logout',
+			icon: LogOut,
+			text: 'Logout'
+		});
+	}
 </script>
 
 <header class="flex justify-center border-b border-b-border py-4">

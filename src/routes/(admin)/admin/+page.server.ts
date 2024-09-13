@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import db from '../../../database/drizzle';
-import { userTable } from '../../../database/schema';
+import { productTable, userTable } from '../../../database/schema';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -9,6 +9,11 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return redirect(302, '/');
 	}
 
+	if (!locals.user.isAdmin) {
+		return redirect(302, '/');
+	}
+
+	// NOTE: Probably a redundant check but one that I'm gonna keep for peace of mind
 	const user = await db.select().from(userTable).where(eq(userTable.id, locals.user.id));
 
 	if (user.length === 0) {
@@ -19,6 +24,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return redirect(302, '/');
 	}
 
-	// TODO: Return management stuff
-	return {};
+	const auctions = await db
+		.select()
+		.from(productTable)
+		.leftJoin(userTable, eq(productTable.userId, userTable.id));
+
+	return {
+		auctions
+	};
 };
