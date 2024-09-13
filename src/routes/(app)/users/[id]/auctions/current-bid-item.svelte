@@ -15,9 +15,11 @@
 	};
 </script>
 
-<section class="flex gap-8">
-	<Card.Root class="w-1/4">
-		<Card.Content class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6">
+<section class="flex flex-col gap-8 md:flex-row">
+	<Card.Root class="w-full md:w-1/3">
+		<Card.Content
+			class="flex aspect-square max-h-[350px] w-full items-center justify-center p-6 lg:aspect-video"
+		>
 			<a href={auctionLink} class="contents">
 				<img
 					src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
@@ -27,10 +29,12 @@
 			</a>
 		</Card.Content>
 	</Card.Root>
-	<div class="flex w-3/4 flex-col justify-center gap-4">
-		<p>Name: <a href={auctionLink} class="hover:underline">{auction.product.name}</a></p>
+	<div class="flex w-full flex-col justify-center gap-4 md:w-1/2">
+		<p class="md:truncate">
+			Name: <a href={auctionLink} class=" hover:underline">{auction.product.name}</a>
+		</p>
 		<p>Your Bid: {highestBid.bid.value}€</p>
 		<p>Highest Bid: {auction.product.price}€</p>
-		<Button href={auctionLink} class="w-56">Increase Bid</Button>
+		<Button href={auctionLink} class="w-full md:w-56">Increase Bid</Button>
 	</div>
 </section>

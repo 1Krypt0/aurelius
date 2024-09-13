@@ -8,7 +8,7 @@
 	$: ({ form: formData, enhance } = form);
 </script>
 
-<section class="mx-auto w-1/2">
+<section class="mx-auto w-full md:w-1/2">
 	<h2 class="font-headers text-4xl">My Profile</h2>
 
 	<Separator class="my-12" />

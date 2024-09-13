@@ -5,12 +5,12 @@
 	export let wonItems;
 </script>
 
-<section class="flex">
-	<aside class=" w-1/4 md:block">
-		<h2 class="font-headers text-2xl">Won Items</h2>
+<section class="flex flex-col md:flex-row md:gap-12">
+	<aside class="md:block md:w-1/3">
+		<h2 class="text-center font-headers text-2xl md:text-start">Won Items</h2>
 		<Separator class="my-4" />
 	</aside>
-	<section class="mx-auto w-3/4 px-12">
+	<section class="md:w-2/3">
 		<div class="flex flex-col gap-8">
 			{#each wonItems as auction}
 				<WonAuctionItem {auction} />
