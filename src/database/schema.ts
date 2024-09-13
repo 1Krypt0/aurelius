@@ -8,6 +8,8 @@ export const userTable = pgTable('user', {
 	isAdmin: boolean('is_admin').notNull().default(false)
 });
 
+export type SelectUser = typeof userTable.$inferSelect;
+
 export const productTable = pgTable('product', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(), // NOTE: Check if not unique
@@ -16,6 +18,7 @@ export const productTable = pgTable('product', {
 	startDate: timestamp('start_date', { withTimezone: true }).notNull(),
 	endDate: timestamp('end_date', { withTimezone: true }).notNull(),
 	sold: boolean('sold').notNull().default(false),
+	paid: boolean('paid').notNull().default(false),
 	userId: text('user_id').references(() => userTable.id)
 });
 

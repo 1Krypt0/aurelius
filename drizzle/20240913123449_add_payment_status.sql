@@ -1,0 +1,1 @@
+ALTER TABLE "product" ADD COLUMN "paid" boolean DEFAULT false NOT NULL;
