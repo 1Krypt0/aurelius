@@ -1,9 +1,10 @@
 <script lang="ts">
+	import type { PageServerData } from './$types';
+
 	import * as Form from '$lib/components/ui/form/index';
 	import { Input } from '$lib/components/ui/input/index';
 
 	import { superForm } from 'sveltekit-superforms';
-	import type { PageServerData } from './$types';
 
 	export let data: PageServerData;
 
@@ -13,6 +14,7 @@
 
 <div class="mx-auto flex w-[310px] flex-col justify-center">
 	<h1 class="pb-6 text-center font-headers text-3xl">Log in to your account</h1>
+
 	<form method="post" use:enhance>
 		<div class="grid gap-4">
 			<Form.Field {form} name="email" class="grid gap-2">
@@ -28,6 +30,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Field {form} name="password" class="grid gap-2">
 				<Form.Control let:attrs>
 					<div class="flex items-center">
@@ -46,8 +49,10 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
+
 			<Form.Button type="submit" class="w-full">Login</Form.Button>
 		</div>
+
 		<div class="mt-4 text-center text-sm">
 			Don't have an account?
 			<a href="/register" class="underline">Sign up</a>
