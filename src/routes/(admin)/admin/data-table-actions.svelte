@@ -2,9 +2,16 @@
 	import Ellipsis from 'lucide-svelte/icons/ellipsis';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
+	import DataTableDelete from './data-table-delete.svelte';
 
 	export let id: string;
+
+	const actions = {
+		delete: false
+	};
 </script>
+
+<DataTableDelete isOpen={actions.delete} {id} />
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
@@ -22,6 +29,8 @@
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 		<DropdownMenu.Item>Edit Details</DropdownMenu.Item>
-		<DropdownMenu.Item>Terminate Auction</DropdownMenu.Item>
+		<DropdownMenu.Item on:click={() => (actions.delete = true)}>
+			Terminate Auction
+		</DropdownMenu.Item>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

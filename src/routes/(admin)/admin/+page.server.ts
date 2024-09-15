@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import db from '../../../database/drizzle';
 import { productTable, userTable } from '../../../database/schema';
 import { eq } from 'drizzle-orm';
@@ -32,4 +32,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 	return {
 		auctions
 	};
+};
+
+export const actions: Actions = {
+	delete: async ({ request }) => {
+		// TODO: Guard this endpoint
+		const data = await request.formData();
+		const id = data.get('id') as string;
+
+		await db.delete(productTable).where(eq(productTable.id, id));
+	}
 };

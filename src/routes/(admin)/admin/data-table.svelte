@@ -3,18 +3,22 @@
 
 	import * as Table from '$lib/components/ui/table';
 	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import DataTableActions from './data-table-actions.svelte';
 
 	import { readable } from 'svelte/store';
 	import { createRender, createTable, Render, Subscribe } from 'svelte-headless-table';
-	import { addPagination, addSortBy } from 'svelte-headless-table/plugins';
+	import { addPagination, addSortBy, addTableFilter } from 'svelte-headless-table/plugins';
 	import DataTableBoolCell from './data-table-bool-cell.svelte';
 
 	export let auctions: { product: SelectProduct; user: SelectUser | null }[];
 
 	const table = createTable(readable(auctions), {
 		page: addPagination({ initialPageSize: 6 }),
-		sort: addSortBy()
+		sort: addSortBy(),
+		filter: addTableFilter({
+			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
+		})
 	});
 
 	const columns = table.createColumns([
@@ -36,7 +40,11 @@
 					currency: 'EUR'
 				}).format(value);
 			},
-			plugins: {}
+			plugins: {
+				filter: {
+					exclude: true
+				}
+			}
 		}),
 		table.column({
 			accessor: ({ product }) => product.startDate,
@@ -50,7 +58,11 @@
 					minute: 'numeric'
 				}).format(value);
 			},
-			plugins: {}
+			plugins: {
+				filter: {
+					exclude: true
+				}
+			}
 		}),
 		table.column({
 			accessor: ({ product }) => product.endDate,
@@ -64,7 +76,11 @@
 					minute: 'numeric'
 				}).format(value);
 			},
-			plugins: {}
+			plugins: {
+				filter: {
+					exclude: true
+				}
+			}
 		}),
 		table.column({
 			accessor: ({ product }) => product.sold,
@@ -76,6 +92,9 @@
 			plugins: {
 				sort: {
 					disable: true
+				},
+				filter: {
+					exclude: true
 				}
 			}
 		}),
@@ -88,6 +107,9 @@
 			plugins: {
 				sort: {
 					disable: true
+				},
+				filter: {
+					exclude: true
 				}
 			}
 		}),
@@ -100,6 +122,9 @@
 			plugins: {
 				sort: {
 					disable: true
+				},
+				filter: {
+					exclude: true
 				}
 			}
 		}),
@@ -112,6 +137,9 @@
 			plugins: {
 				sort: {
 					disable: true
+				},
+				filter: {
+					exclude: true
 				}
 			}
 		})
@@ -121,9 +149,18 @@
 		table.createViewModel(columns);
 
 	const { hasNextPage, hasPreviousPage, pageIndex, pageCount } = pluginStates.page;
+	const { filterValue } = pluginStates.filter;
 </script>
 
 <div class="">
+	<div class="flex items-center py-4">
+		<Input
+			class="max-w-sm"
+			placeholder="Filter Auctions..."
+			type="text"
+			bind:value={$filterValue}
+		/>
+	</div>
 	<div class="rounded-md border">
 		<Table.Root {...$tableAttrs}>
 			<Table.Header>
