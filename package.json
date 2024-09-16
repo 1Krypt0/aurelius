@@ -46,8 +46,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.637.0",
-    "@aws-sdk/s3-request-presigner": "^3.637.0",
+    "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/s3-request-presigner": "^3.651.1",
     "@faker-js/faker": "^9.0.0",
     "@internationalized/date": "^3.5.5",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
@@ -66,6 +66,7 @@
     "svelte-headless-table": "^0.18.2",
     "svelte-kit-sst": "2.43.5",
     "tailwind-merge": "^2.5.2",
-    "tailwind-variants": "^0.2.1"
+    "tailwind-variants": "^0.2.1",
+    "uuid": "^10.0.0"
   }
 }
