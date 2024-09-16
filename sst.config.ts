@@ -9,6 +9,11 @@ export default $config({
 		};
 	},
 	async run() {
-		new sst.aws.SvelteKit('Aurelius');
+		const bucket = new sst.aws.Bucket('FileUploads', {
+			access: 'public'
+		});
+		new sst.aws.SvelteKit('Aurelius', {
+			link: [bucket]
+		});
 	}
 });
