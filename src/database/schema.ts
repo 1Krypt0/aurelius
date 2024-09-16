@@ -33,6 +33,8 @@ export const imageTable = pgTable('image', {
 		.references(() => productTable.id)
 });
 
+export type SelectImage = typeof imageTable.$inferSelect;
+
 export const bidTable = pgTable('bid', {
 	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
 	value: real('value').notNull(),
@@ -43,6 +45,8 @@ export const bidTable = pgTable('bid', {
 		.notNull()
 		.references(() => productTable.id)
 });
+
+export type SelectBid = typeof bidTable.$inferSelect;
 
 export const sessionTable = pgTable('session', {
 	id: text('id').primaryKey(),
