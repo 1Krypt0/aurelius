@@ -13,5 +13,9 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Bucket"
     }
+    "NeonUrl": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
   }
 }
