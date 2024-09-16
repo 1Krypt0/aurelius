@@ -1,6 +1,12 @@
 import { desc, eq } from 'drizzle-orm';
 import db from '../../../../database/drizzle';
-import { bidTable, productTable } from '../../../../database/schema';
+import {
+	bidTable,
+	imageTable,
+	productTable,
+	type SelectImage,
+	type SelectProduct
+} from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
@@ -15,7 +21,30 @@ const bidSchema = createInsertSchema(bidTable, {
 });
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-	const auction = await db.select().from(productTable).where(eq(productTable.id, params.id));
+	const auction = await db
+		.select()
+		.from(productTable)
+		.leftJoin(imageTable, eq(imageTable.productId, productTable.id))
+		.where(eq(productTable.id, params.id));
+
+	const res = Object.values(
+		auction.reduce<Record<string, { product: SelectProduct; images: SelectImage[] }>>(
+			(acc, row) => {
+				const product = row.product;
+				const image = row.image;
+
+				if (!acc[product.id]) {
+					acc[product.id] = { product, images: [] };
+				}
+
+				if (image) {
+					acc[product.id].images.push(image);
+				}
+				return acc;
+			},
+			{}
+		)
+	);
 
 	if (auction.length === 0) {
 		return error(404, 'Auction not found');
@@ -26,7 +55,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const form = await superValidate(zod(bidSchema));
 
 	return {
-		auction: auction[0],
+		auction: res[0],
 		user: locals.user,
 		bids,
 		form

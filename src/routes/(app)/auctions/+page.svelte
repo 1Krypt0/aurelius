@@ -16,7 +16,7 @@
 	<SearchBar />
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 		{#each auctions as auction}
-			<AuctionShowcase {auction} />
+			<AuctionShowcase auction={auction.product} images={auction.images} />
 		{/each}
 	</div>
 </section>

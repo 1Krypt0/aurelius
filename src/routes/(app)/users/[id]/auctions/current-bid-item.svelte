@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { SelectProduct, SelectBid } from '../../../../../database/schema';
+	import type { SelectProduct, SelectBid, SelectImage } from '../../../../../database/schema';
 	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 
-	export let auction: { product: SelectProduct };
+	export let auction: { product: SelectProduct; images: SelectImage[] };
 	export let bids: { bid: SelectBid }[];
 
 	const highestBid = bids.sort((a, b) => b.bid.value - a.bid.value)[0];
@@ -22,7 +22,9 @@
 		>
 			<a href={auctionLink} class="contents">
 				<img
-					src={`https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`}
+					src={auction.images.length === 0
+						? `https://picsum.photos/id/277/${genRandom(1, 10) * 100}/${genRandom(1, 10) * 100}`
+						: auction.images[0].url}
 					alt="Product Showcase"
 					class="max-h-full max-w-full object-scale-down"
 				/>

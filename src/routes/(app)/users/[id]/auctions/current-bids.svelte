@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { SelectBid, SelectProduct } from '../../../../../database/schema';
+	import type { SelectBid, SelectImage, SelectProduct } from '../../../../../database/schema';
 
 	import { Separator } from '$lib/components/ui/separator';
 	import CurrentBidItem from './current-bid-item.svelte';
 
-	export let auctions: { product: SelectProduct }[];
+	export let auctions: { product: SelectProduct; images: SelectImage[] }[];
 	export let bids: { bid: SelectBid }[];
 </script>
 

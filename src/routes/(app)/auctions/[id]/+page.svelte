@@ -13,14 +13,15 @@
 	const form = superForm(data.form);
 	const user = data.user;
 
-	$: auction = data.auction;
+	$: auction = data.auction.product;
+	$: images = data.auction.images;
 	$: bidAmount = data.bids.length;
 	$: priceIncrease = Math.round((auction.price * 1.1 + Number.EPSILON) * 100) / 100;
 </script>
 
 <section class="flex flex-col gap-12 md:flex-row md:gap-24">
 	<div class="md:w-1/2">
-		<AuctionImages />
+		<AuctionImages {images} />
 	</div>
 
 	<aside class="flex flex-col gap-4 md:w-1/3 md:pt-12">
