@@ -14,7 +14,7 @@
 	export let auctions: { product: SelectProduct; user: SelectUser | null }[];
 
 	const table = createTable(readable(auctions), {
-		page: addPagination({ initialPageSize: 6 }),
+		page: addPagination({ initialPageSize: 7 }),
 		sort: addSortBy(),
 		filter: addTableFilter({
 			fn: ({ filterValue, value }) => value.toLowerCase().includes(filterValue.toLowerCase())
@@ -153,13 +153,14 @@
 </script>
 
 <div class="">
-	<div class="flex items-center py-4">
+	<div class="flex items-center justify-between py-4">
 		<Input
 			class="max-w-sm"
 			placeholder="Filter Auctions..."
 			type="text"
 			bind:value={$filterValue}
 		/>
+		<Button href="/admin/create">Create New Auction</Button>
 	</div>
 	<div class="rounded-md border">
 		<Table.Root {...$tableAttrs}>

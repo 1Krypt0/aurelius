@@ -6,9 +6,9 @@ import { eq } from 'drizzle-orm';
 
 import { createSelectSchema } from 'drizzle-zod';
 import { zod } from 'sveltekit-superforms/adapters';
-import { setError, superValidate } from 'sveltekit-superforms';
+import { fail, setError, superValidate } from 'sveltekit-superforms';
 
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { verify } from '@node-rs/argon2';
 import { lucia } from '$lib/server/auth';
 

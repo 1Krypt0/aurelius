@@ -2,9 +2,9 @@ import { desc, eq } from 'drizzle-orm';
 import db from '../../../../database/drizzle';
 import { bidTable, productTable } from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
-import { setError, superValidate } from 'sveltekit-superforms';
+import { setError, superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 
