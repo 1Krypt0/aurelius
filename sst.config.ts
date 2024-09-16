@@ -20,6 +20,9 @@ export default $config({
 			buildCommand: 'bun run build',
 			dev: {
 				command: 'bun run dev'
+			},
+			server: {
+				install: ['@node-rs/argon2']
 			}
 		});
 	}
