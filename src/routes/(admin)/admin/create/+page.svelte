@@ -15,7 +15,7 @@
 	import { CalendarIcon, Clock } from 'lucide-svelte';
 
 	import { DateFormatter, getLocalTimeZone, parseDate, today } from '@internationalized/date';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 
 	export let data: PageServerData;
 
@@ -273,8 +273,6 @@
 					{/if}
 				</div>
 			</div>
-
-			<SuperDebug data={$formData} />
 
 			<Form.Button>Create Auction</Form.Button>
 		</div>
