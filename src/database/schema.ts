@@ -26,11 +26,11 @@ export type InsertProduct = typeof productTable.$inferInsert;
 export type SelectProduct = typeof productTable.$inferSelect;
 
 export const imageTable = pgTable('image', {
-	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
+	id: text('id').primaryKey(),
 	url: text('url').notNull().unique(),
 	productId: text('product_id')
 		.notNull()
-		.references(() => productTable.id)
+		.references(() => productTable.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 });
 
 export type SelectImage = typeof imageTable.$inferSelect;
@@ -40,10 +40,10 @@ export const bidTable = pgTable('bid', {
 	value: real('value').notNull(),
 	userId: text('user_id')
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 	productId: text('product_id')
 		.notNull()
-		.references(() => productTable.id)
+		.references(() => productTable.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 });
 
 export type SelectBid = typeof bidTable.$inferSelect;
