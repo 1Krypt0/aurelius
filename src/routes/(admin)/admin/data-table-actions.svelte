@@ -28,7 +28,7 @@
 			</DropdownMenu.Item>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
-		<DropdownMenu.Item>Edit Details</DropdownMenu.Item>
+		<DropdownMenu.Item href={`/admin/${id}/edit`}>Edit Details</DropdownMenu.Item>
 		<DropdownMenu.Item on:click={() => (actions.delete = true)}>
 			Terminate Auction
 		</DropdownMenu.Item>
