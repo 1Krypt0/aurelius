@@ -1,0 +1,1 @@
+ALTER TABLE "image" ADD COLUMN "new_id" text;

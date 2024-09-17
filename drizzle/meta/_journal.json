@@ -29,6 +29,41 @@
       "when": 1726230889627,
       "tag": "20240913123449_add_payment_status",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1726565075294,
+      "tag": "20240917092435_add_update_delete_restrictions",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1726567382476,
+      "tag": "20240917100302_add_new_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726567428599,
+      "tag": "20240917100348_drop_old_image_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1726567655229,
+      "tag": "20240917100735_drop_image_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1726567704774,
+      "tag": "20240917100824_re_add_image_table",
+      "breakpoints": true
     }
   ]
 }
