@@ -79,14 +79,16 @@ export const actions: Actions = {
 		});
 
 		const imageURLs = [];
+    const client = new S3Client({})
 
 		for (const image of images) {
+			const imageId = uuid();
 			const command = new PutObjectCommand({
-				Key: uuid(),
+				Key: imageId,
 				Bucket: Resource.FileUploads.name
 			});
 
-			const url = await getSignedUrl(new S3Client({}), command);
+			const url = await getSignedUrl(client, command);
 
 			const res = await fetch(url, {
 				body: image,
@@ -100,17 +102,10 @@ export const actions: Actions = {
 			// TODO: Add error handling for when images fail
 			const imageURL = res.url.split('?')[0];
 
-			imageURLs.push(imageURL);
+			imageURLs.push({ id: imageId, url: imageURL, productId: id });
 		}
 
-		const associatedProduct = imageURLs.map((entry) => {
-			return {
-				url: entry,
-				productId: id
-			};
-		});
-
-		await db.insert(imageTable).values(associatedProduct);
+		await db.insert(imageTable).values(imageURLs);
 
 		return redirect(302, '/admin');
 	}
