@@ -10,6 +10,15 @@
 
 	const auctionLink = `/auctions/${auction.product.id}`;
 
+	const formatter = new Intl.NumberFormat('pt-PT', {
+		style: 'currency',
+		currency: 'EUR'
+	});
+
+	const formattedPrice = formatter.format(auction.product.price);
+
+	const formattedHighestBid = formatter.format(highestBid.bid.value);
+
 	const genRandom = (min: number, max: number): number => {
 		return min + Math.floor(Math.random() * max);
 	};
@@ -35,8 +44,8 @@
 		<p class="md:truncate">
 			Name: <a href={auctionLink} class=" hover:underline">{auction.product.name}</a>
 		</p>
-		<p>Your Bid: {highestBid.bid.value}€</p>
-		<p>Highest Bid: {auction.product.price}€</p>
+		<p>Your Bid: {formattedHighestBid}</p>
+		<p>Highest Bid: {formattedPrice}</p>
 		<Button href={auctionLink} class="w-full md:w-56">Increase Bid</Button>
 	</div>
 </section>

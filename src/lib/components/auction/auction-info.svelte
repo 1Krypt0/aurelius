@@ -28,6 +28,11 @@
 		hour: 'numeric',
 		minute: 'numeric'
 	}).format(endDate);
+
+	$: formattedPrice = new Intl.NumberFormat('pt-PT', {
+		style: 'currency',
+		currency: 'EUR'
+	}).format(price);
 </script>
 
 {#if variant === 'detailed'}
@@ -42,9 +47,9 @@
 
 <div class="flex items-center justify-between">
 	{#if variant == 'detailed'}
-		<p>{pricePrefix} Price: {price}€ ({bidAmount} bids)</p>
+		<p>{pricePrefix} Price: {formattedPrice} ({bidAmount} bids)</p>
 	{:else}
-		<p>{pricePrefix} Price: {price}€</p>
+		<p>{pricePrefix} Price: {formattedPrice}</p>
 		<Button class="w-1/2" href={auctionLink}>
 			{buttonVal}
 		</Button>

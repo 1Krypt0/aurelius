@@ -35,7 +35,7 @@
 			accessor: ({ product }) => product.price,
 			header: 'Price',
 			cell: ({ value }) => {
-				return new Intl.NumberFormat(undefined, {
+				return new Intl.NumberFormat("pt-PT", {
 					style: 'currency',
 					currency: 'EUR'
 				}).format(value);

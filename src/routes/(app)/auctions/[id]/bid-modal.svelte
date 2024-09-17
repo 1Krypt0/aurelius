@@ -7,6 +7,11 @@
 	export let form;
 	export let priceIncrease: number;
 
+	const formattedPriceIncrease = new Intl.NumberFormat('pt-PT', {
+		style: 'currency',
+		currency: 'EUR'
+	}).format(priceIncrease);
+
 	const { form: formData, enhance } = form;
 </script>
 
@@ -30,7 +35,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 				<Form.Description>
-					Enter EUR {priceIncrease} or more
+					Enter {formattedPriceIncrease} or more
 				</Form.Description>
 			</Form.Field>
 		</form>

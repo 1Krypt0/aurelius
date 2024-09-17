@@ -10,6 +10,11 @@
 	const genRandom = (min: number, max: number): number => {
 		return min + Math.floor(Math.random() * max);
 	};
+
+	const formattedPrice = new Intl.NumberFormat('pt-PT', {
+		style: 'currency',
+		currency: 'EUR'
+	}).format(auction.product.price);
 </script>
 
 <section class="flex flex-col gap-8 md:flex-row">
@@ -32,7 +37,7 @@
 		<p class="md:truncate">
 			Name: <a href={auctionLink} class=" hover:underline">{auction.product.name}</a>
 		</p>
-		<p>Your Bid: {auction.product.price}€</p>
+		<p>Your Bid: {formattedPrice}</p>
 		<Button href="/checkout" class="w-full md:w-56">Pay</Button>
 	</div>
 </section>
