@@ -1,18 +1,13 @@
 import { desc, eq } from 'drizzle-orm';
 import db from '../../../../database/drizzle';
-import {
-	bidTable,
-	imageTable,
-	productTable,
-	type SelectImage,
-	type SelectProduct
-} from '../../../../database/schema';
+import { bidTable, imageTable, productTable } from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
 import { setError, superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
+import { convertAuctionImageQuery } from '$lib/server/utils';
 
 const bidSchema = createInsertSchema(bidTable, {
 	value: z.number({ invalid_type_error: 'Amount must be a number' }).nonnegative()
@@ -27,24 +22,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.leftJoin(imageTable, eq(imageTable.productId, productTable.id))
 		.where(eq(productTable.id, params.id));
 
-	const res = Object.values(
-		auction.reduce<Record<string, { product: SelectProduct; images: SelectImage[] }>>(
-			(acc, row) => {
-				const product = row.product;
-				const image = row.image;
-
-				if (!acc[product.id]) {
-					acc[product.id] = { product, images: [] };
-				}
-
-				if (image) {
-					acc[product.id].images.push(image);
-				}
-				return acc;
-			},
-			{}
-		)
-	);
+	const res = convertAuctionImageQuery(auction);
 
 	if (auction.length === 0) {
 		return error(404, 'Auction not found');

@@ -1,16 +1,10 @@
 import { and, eq } from 'drizzle-orm';
 import db from '../../../../../database/drizzle';
-import {
-	bidTable,
-	imageTable,
-	productTable,
-	userTable,
-	type SelectImage,
-	type SelectProduct
-} from '../../../../../database/schema';
+import { bidTable, imageTable, productTable, userTable } from '../../../../../database/schema';
 
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
+import { convertAuctionImageQuery } from '$lib/server/utils';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!locals.user) {
@@ -33,24 +27,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.where(and(eq(userTable.id, params.id), eq(productTable.sold, false)))
 		.leftJoin(imageTable, eq(imageTable.productId, productTable.id));
 
-	const currentBids = Object.values(
-		auctions.reduce<Record<string, { product: SelectProduct; images: SelectImage[] }>>(
-			(acc, row) => {
-				const product = row.product;
-				const image = row.image;
-
-				if (!acc[product.id]) {
-					acc[product.id] = { product, images: [] };
-				}
-
-				if (image) {
-					acc[product.id].images.push(image);
-				}
-				return acc;
-			},
-			{}
-		)
-	);
+	const currentBids = convertAuctionImageQuery(auctions);
 
 	const bids = await db
 		.select({
@@ -66,24 +43,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		.where(and(eq(productTable.sold, true), eq(productTable.userId, params.id)))
 		.leftJoin(imageTable, eq(imageTable.productId, productTable.id));
 
-	const items = Object.values(
-		wonItems.reduce<Record<string, { product: SelectProduct; images: SelectImage[] }>>(
-			(acc, row) => {
-				const product = row.product;
-				const image = row.image;
-
-				if (!acc[product.id]) {
-					acc[product.id] = { product, images: [] };
-				}
-
-				if (image) {
-					acc[product.id].images.push(image);
-				}
-				return acc;
-			},
-			{}
-		)
-	);
+	const items = convertAuctionImageQuery(wonItems);
 
 	return {
 		auctions: currentBids,

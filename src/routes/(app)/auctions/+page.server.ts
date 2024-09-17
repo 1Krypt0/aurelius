@@ -1,12 +1,8 @@
 import { eq, gt } from 'drizzle-orm';
 import db from '../../../database/drizzle';
-import {
-	imageTable,
-	productTable,
-	type SelectImage,
-	type SelectProduct
-} from '../../../database/schema';
+import { imageTable, productTable } from '../../../database/schema';
 import type { PageServerLoad } from './$types';
+import { convertAuctionImageQuery } from '$lib/server/utils';
 
 export const load: PageServerLoad = async () => {
 	const now = new Date();
@@ -18,24 +14,7 @@ export const load: PageServerLoad = async () => {
 		.where(gt(productTable.endDate, now))
 		.orderBy(productTable.endDate);
 
-	const res = Object.values(
-		auctions.reduce<Record<string, { product: SelectProduct; images: SelectImage[] }>>(
-			(acc, row) => {
-				const product = row.product;
-				const image = row.image;
-
-				if (!acc[product.id]) {
-					acc[product.id] = { product, images: [] };
-				}
-
-				if (image) {
-					acc[product.id].images.push(image);
-				}
-				return acc;
-			},
-			{}
-		)
-	);
+	const res = convertAuctionImageQuery(auctions);
 
 	return {
 		auctions: res
