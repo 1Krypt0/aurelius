@@ -14,6 +14,14 @@ export default $config({
 
 		const secret = new sst.Secret('NeonUrl');
 
+		new sst.aws.Cron('AuctionTracker', {
+			schedule: 'cron(0/15 * * * ? *)',
+			job: {
+				handler: './src/cron/auction.handler',
+				link: [secret]
+			}
+		});
+
 		new sst.aws.SvelteKit('Aurelius', {
 			link: [bucket, secret],
 			buildCommand: 'bun run build',
