@@ -1,12 +1,9 @@
 import type { PageServerLoad } from './$types';
-import { Stripe } from 'stripe';
-import { SECRET_STRIPE_KEY } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 import db from '../../../../database/drizzle';
 import { productTable } from '../../../../database/schema';
 import { eq } from 'drizzle-orm';
-
-const stripe = new Stripe(SECRET_STRIPE_KEY);
+import stripe from '$lib/server/stripe';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	if (!locals.user) {
@@ -25,8 +22,6 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		return redirect(302, '/');
 	}
 
-	console.log('Price', product.price);
-
 	const session = await stripe.checkout.sessions.create({
 		line_items: [
 			{
@@ -40,6 +35,9 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 				quantity: 1
 			}
 		],
+    metadata: {
+      product_id: product.id
+    },
 		mode: 'payment',
 		success_url: `${url.origin}/checkout/complete?success=true`,
 		cancel_url: `${url.origin}/checkout/complete?canceled=true`
