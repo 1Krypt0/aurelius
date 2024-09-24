@@ -47,8 +47,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::329599617328:role/AureliusRole
-
+          role-to-assume: arn:aws:iam::329599617328:role/aurelius-github
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
 
