@@ -1,4 +1,4 @@
-import type { SelectImage, SelectProduct } from '../../database/schema';
+import type { SelectBid, SelectImage, SelectProduct } from '../../database/schema';
 
 export const convertAuctionImageQuery = (
 	auctions: { product: SelectProduct; image: SelectImage | null }[]
@@ -19,5 +19,28 @@ export const convertAuctionImageQuery = (
 
 		return acc;
 	}, {});
+	return Object.values(reduced);
+};
+
+export const convertAuctionBidQuery = (
+	auctions: { product: SelectProduct; bid: SelectBid | null }[]
+): { product: SelectProduct; bids: SelectBid[] }[] => {
+	const reduced = auctions.reduce<Record<string, { product: SelectProduct; bids: SelectBid[] }>>(
+		(acc, row) => {
+			const product = row.product;
+			const bid = row.bid;
+
+			if (!acc[product.id]) {
+				acc[product.id] = { product, bids: [] };
+			}
+
+			if (bid) {
+				acc[product.id].bids.push(bid);
+			}
+
+			return acc;
+		},
+		{}
+	);
 	return Object.values(reduced);
 };

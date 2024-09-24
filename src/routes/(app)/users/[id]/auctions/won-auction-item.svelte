@@ -6,6 +6,7 @@
 	export let auction: { product: SelectProduct; images: SelectImage[] };
 
 	const auctionLink = `/auctions/${auction.product.id}`;
+	const checkoutLink = `/checkout/${auction.product.id}`;
 
 	const genRandom = (min: number, max: number): number => {
 		return min + Math.floor(Math.random() * max);
@@ -38,6 +39,6 @@
 			Name: <a href={auctionLink} class=" hover:underline">{auction.product.name}</a>
 		</p>
 		<p>Your Bid: {formattedPrice}</p>
-		<Button href="/checkout" class="w-full md:w-56">Pay</Button>
+		<Button href={checkoutLink} class="w-full md:w-56">Pay</Button>
 	</div>
 </section>
