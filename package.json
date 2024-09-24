@@ -10,7 +10,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"preview": "vite preview",
-		"test": "npm run test:integration && npm run test:unit",
+		"test": "bun run test:unit && bun run test:integration",
 		"test:integration": "playwright test",
 		"test:unit": "vitest"
 	},

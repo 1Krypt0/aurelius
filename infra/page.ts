@@ -2,7 +2,7 @@ import { bucket } from './storage';
 import { secret } from './secret';
 
 const page = new sst.aws.SvelteKit('Aurelius', {
-	link: [bucket, secret.NeonUrl],
+	link: [bucket, secret.NeonUrl, secret.StripeSecret, secret.StripeWebhookSecret],
 	buildCommand: 'bun run build',
 	dev: {
 		command: 'bun run dev'
