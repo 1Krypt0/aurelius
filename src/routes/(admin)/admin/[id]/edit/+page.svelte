@@ -273,44 +273,44 @@
 				</div>
 			</div>
 
-                              {#if auction.images.length > 0}
-			<Form.Fieldset {form} name="images" class="grid gap-2">
-				<div class="mb-4">
-					<Form.Legend class="text-base">Remove Images</Form.Legend>
-					<Form.Description>
-						Select the images you want to remove from the auction listing.
-					</Form.Description>
-				</div>
-				<div class="grid grid-cols-3 items-center justify-center gap-12">
-					{#each auction.images as image}
-						{@const checked = !$formData.images.includes(image.url)}
-						<div class="flex flex-col items-center space-y-3">
-							<Form.Control let:attrs>
-								<Form.Label class="size-48 overflow-clip object-scale-down">
-									<img src={image.url} alt="Product Showcase" class="size-48 object-scale-down" />
-								</Form.Label>
-								<Checkbox
-									{...attrs}
-									{checked}
-									onCheckedChange={(v) => {
-										if (v) {
-											removeItem(image.url);
-										} else {
-											addItem(image.url);
-										}
-									}}
-								/>
-							</Form.Control>
-						</div>
-					{/each}
-				</div>
-				<Form.FieldErrors />
-			</Form.Fieldset>
-                              {/if}
+			{#if auction.images.length > 0}
+				<Form.Fieldset {form} name="images" class="grid gap-2">
+					<div class="mb-4">
+						<Form.Legend class="text-base">Remove Images</Form.Legend>
+						<Form.Description>
+							Select the images you want to remove from the auction listing.
+						</Form.Description>
+					</div>
+					<div class="grid grid-cols-3 items-center justify-center gap-12">
+						{#each auction.images as image}
+							{@const checked = !$formData.images.includes(image.url)}
+							<div class="flex flex-col items-center space-y-3">
+								<Form.Control let:attrs>
+									<Form.Label class="size-48 overflow-clip object-scale-down">
+										<img src={image.url} alt="Product Showcase" class="size-48 object-scale-down" />
+									</Form.Label>
+									<Checkbox
+										{...attrs}
+										{checked}
+										onCheckedChange={(v) => {
+											if (v) {
+												removeItem(image.url);
+											} else {
+												addItem(image.url);
+											}
+										}}
+									/>
+								</Form.Control>
+							</div>
+						{/each}
+					</div>
+					<Form.FieldErrors />
+				</Form.Fieldset>
+			{/if}
 
 			<Form.Field {form} name="newImages" class="grid gap-2">
 				<Form.Control let:attrs>
-					<Form.Label>Add {auction.images.length === 0 ? "" : "new"} Images</Form.Label>
+					<Form.Label>Add {auction.images.length === 0 ? '' : 'new'} Images</Form.Label>
 					<Input
 						{...attrs}
 						type="file"

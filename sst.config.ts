@@ -1,4 +1,6 @@
 /// <reference path="./.sst/platform/config.d.ts" />
+import { readdirSync } from 'fs';
+
 export default $config({
 	app(input) {
 		return {
@@ -8,29 +10,13 @@ export default $config({
 		};
 	},
 	async run() {
-		const bucket = new sst.aws.Bucket('FileUploads', {
-			access: 'public'
-		});
+		const outputs = {};
 
-		const secret = new sst.Secret('NeonUrl');
+		for (const value of readdirSync('./infra/')) {
+			const res = await import('./infra/' + value);
+			if (res.outputs) Object.assign(outputs, res.outputs);
+		}
 
-		new sst.aws.Cron('AuctionTracker', {
-			schedule: 'cron(0/15 * * * ? *)',
-			job: {
-				handler: './src/cron/auction.handler',
-				link: [secret]
-			}
-		});
-
-		new sst.aws.SvelteKit('Aurelius', {
-			link: [bucket, secret],
-			buildCommand: 'bun run build',
-			dev: {
-				command: 'bun run dev'
-			},
-			server: {
-				install: ['@node-rs/argon2']
-			}
-		});
+		return outputs;
 	}
 });

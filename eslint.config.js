@@ -15,8 +15,13 @@ export default [
 		languageOptions: {
 			globals: {
 				...globals.browser,
-				...globals.node
+				...globals.node,
+				$$Generic: 'readable',
+				NodeJS: true
 			}
+		},
+		rules: {
+			'@typescript-eslint/triple-slash-reference': 'warn'
 		}
 	},
 	{
@@ -25,6 +30,15 @@ export default [
 			parserOptions: {
 				parser: ts.parser
 			}
+		},
+		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^\\$\\$(Props|Events|Slots|Generic)$'
+				}
+			]
 		}
 	},
 	{
