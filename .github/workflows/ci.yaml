@@ -48,6 +48,7 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::329599617328:role/aurelius-github
+
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
 
@@ -59,3 +60,7 @@ jobs:
 
       - name: Run Tests
         run: bun run test
+
+      - name: Upload logs
+        run: bunx sst shell cat .sst/log/sst.logerror
+        if: always()
