@@ -18,9 +18,14 @@ export const POST: RequestHandler = async ({ request }) => {
 		switch (eventType) {
 			case 'checkout.session.completed':
 				// NOTE: The system should first respond with 200 and then do the business logic
+				console.log('DATA');
 				console.log(data);
 
-				// await db.update(productTable).set({ paid: true }).where(eq(productTable.id, data.id));
+				const productId = data.object.metadata.product_id;
+				console.log('product_id');
+				console.log(productId);
+
+				await db.update(productTable).set({ paid: true }).where(eq(productTable.id, productId));
 				break;
 
 			default:
