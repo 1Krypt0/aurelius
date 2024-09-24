@@ -35,9 +35,9 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 				quantity: 1
 			}
 		],
-    metadata: {
-      product_id: product.id
-    },
+		metadata: {
+			product_id: product.id
+		},
 		mode: 'payment',
 		success_url: `${url.origin}/checkout/complete?success=true`,
 		cancel_url: `${url.origin}/checkout/complete?canceled=true`

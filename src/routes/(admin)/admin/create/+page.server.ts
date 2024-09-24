@@ -79,7 +79,7 @@ export const actions: Actions = {
 		});
 
 		const imageURLs = [];
-    const client = new S3Client({})
+		const client = new S3Client({});
 
 		for (const image of images) {
 			const imageId = uuid();

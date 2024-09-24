@@ -1,69 +1,69 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1725472013674,
-      "tag": "20240904174653_initial_setup",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1725983133695,
-      "tag": "20240910154533_add_bid_relations",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1725983352634,
-      "tag": "20240910154912_add_images",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1726230889627,
-      "tag": "20240913123449_add_payment_status",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1726565075294,
-      "tag": "20240917092435_add_update_delete_restrictions",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1726567382476,
-      "tag": "20240917100302_add_new_id",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1726567428599,
-      "tag": "20240917100348_drop_old_image_id",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1726567655229,
-      "tag": "20240917100735_drop_image_table",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1726567704774,
-      "tag": "20240917100824_re_add_image_table",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1725472013674,
+			"tag": "20240904174653_initial_setup",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1725983133695,
+			"tag": "20240910154533_add_bid_relations",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1725983352634,
+			"tag": "20240910154912_add_images",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1726230889627,
+			"tag": "20240913123449_add_payment_status",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1726565075294,
+			"tag": "20240917092435_add_update_delete_restrictions",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1726567382476,
+			"tag": "20240917100302_add_new_id",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1726567428599,
+			"tag": "20240917100348_drop_old_image_id",
+			"breakpoints": true
+		},
+		{
+			"idx": 7,
+			"version": "7",
+			"when": 1726567655229,
+			"tag": "20240917100735_drop_image_table",
+			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "7",
+			"when": 1726567704774,
+			"tag": "20240917100824_re_add_image_table",
+			"breakpoints": true
+		}
+	]
 }
