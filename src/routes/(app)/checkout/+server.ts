@@ -18,16 +18,16 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const data = event.data;
 		const eventType = event.type;
+		const productId = data.object.metadata.product_id;
+
+		console.log('product_id');
+		console.log(productId);
 
 		switch (eventType) {
 			case 'checkout.session.completed':
 				// NOTE: The system should first respond with 200 and then do the business logic
 				console.log('DATA');
 				console.log(data);
-
-				const productId = data.object.metadata.product_id;
-				console.log('product_id');
-				console.log(productId);
 
 				await db.update(productTable).set({ paid: true }).where(eq(productTable.id, productId));
 				break;
