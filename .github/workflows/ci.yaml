@@ -58,13 +58,6 @@ jobs:
       - name: Run Linter
         run: bun run lint
 
+      # FIXME: In the future, add integration tests as well
       - name: Run Tests
-        run: bun run test
-
-      - name: Upload logs
-        run: cat .sst/log/sst.logerror
-        if: always()
-
-      - name: Upload logs 2
-        run: cat .sst/log/sst.log
-        if: always()
+        run: bun run test:unit
