@@ -11,7 +11,7 @@
 		"lint": "prettier --check . && eslint . --ignore-pattern .sst",
 		"preview": "vite preview",
 		"test": "bun run test:unit && bun run test:integration",
-		"test:integration": "sst shell playwright test",
+		"test:integration": "sst shell playwright test && cat .sst/log/sst.logerror && cat .sst/log/sst.log",
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
