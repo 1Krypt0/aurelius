@@ -2,8 +2,6 @@ import { faker } from '@faker-js/faker';
 import { productTable, type InsertProduct } from './schema';
 import db from './drizzle';
 
-// NOTE: Whenever running this process, change way api key is passed, as $env is not available
-
 const maxPrice = 10_000;
 
 const productAmount = 75;

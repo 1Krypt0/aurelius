@@ -1,7 +1,7 @@
-import { SECRET_STRIPE_KEY } from '$env/static/private';
+import { Resource } from 'sst';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(SECRET_STRIPE_KEY, {
+const stripe = new Stripe(Resource.StripeSecret.value, {
 	apiVersion: '2024-06-20'
 });
 

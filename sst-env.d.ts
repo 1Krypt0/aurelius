@@ -17,5 +17,13 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "StripeSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "StripeWebhookSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
   }
 }

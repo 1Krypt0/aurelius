@@ -1,16 +1,20 @@
 import type { RequestHandler } from './$types';
-import { WEBHOOK_SECRET } from '$env/static/private';
 import stripe from '$lib/server/stripe';
 import db from '../../../database/drizzle';
 import { productTable } from '../../../database/schema';
 import { eq } from 'drizzle-orm';
+import { Resource } from 'sst';
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const body = await request.text();
 		const signature = request.headers.get('stripe-signature') as string;
 
-		const event = stripe.webhooks.constructEvent(body, signature, WEBHOOK_SECRET);
+		const event = stripe.webhooks.constructEvent(
+			body,
+			signature,
+			Resource.StripeWebhookSecret.value
+		);
 
 		const data = event.data;
 		const eventType = event.type;
