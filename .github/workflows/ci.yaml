@@ -20,12 +20,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache SST
-        uses: actions/cache@v4
-        with:
-          path: |
-            .sst
-          key: ${{runner.os}}-sst
+      # - name: Cache SST
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       .sst
+      #     key: ${{runner.os}}-sst
 
       # Step 2: Install Bun
       - name: Install Bun
