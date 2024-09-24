@@ -44,6 +44,19 @@ jobs:
       - name: Run Linter
         run: bun run lint
 
+      - name: Start SST so tests can function
+        run: |
+          nohup bunx sst dev > sst.log 2>&1 &
+          echo $! > sst_dev.pid
+        shell: bash
+
+      - name: Wait for SST to be ready
+        run: bunx wait-on http://localhost:5173
+
       # Step 5: Run tests
       - name: Run Tests
         run: bun run test
+
+      - name: Stop SST after testing
+        run: kill $(cat sst_dev.pid)
+        if: always()
