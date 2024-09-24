@@ -19,6 +19,9 @@ export default [
 				$$Generic: 'readable',
 				NodeJS: true
 			}
+		},
+		rules: {
+			'@typescript-eslint/triple-slash-reference': 'warn'
 		}
 	},
 	{
