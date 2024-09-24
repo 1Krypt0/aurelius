@@ -31,6 +31,9 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps
+
       - name: Install dependencies
         run: bun install
 
@@ -38,4 +41,4 @@ jobs:
         run: bun run lint
 
       - name: Run Tests
-        run: bun run test:unit
+        run: bun run test

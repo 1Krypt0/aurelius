@@ -10,8 +10,8 @@
 		"format": "prettier --write --plugin-search-dir=. .",
 		"lint": "prettier --check . && eslint . --ignore-pattern .sst",
 		"preview": "vite preview",
-		"test": "bun run test:unit &&  sst dev --mode=basic -- bun run test:integration",
-		"test:integration": "playwright test",
+		"test": "bun run test:unit && bun run test:integration",
+		"test:integration": "sst shell playwright test",
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
