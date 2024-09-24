@@ -38,10 +38,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: "20"
+          node-version: '20'
 
-      - name: "Install SST"
-        run:  "curl -fsSL https://ion.sst.dev/install | bash"
+      - name: 'Install SST'
+        run: 'curl -fsSL https://ion.sst.dev/install | bash'
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
