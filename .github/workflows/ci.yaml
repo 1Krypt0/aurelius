@@ -9,13 +9,17 @@ on:
       - dev
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -31,11 +35,29 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20'
+
+      - name: 'Install SST'
+        run: 'curl -fsSL https://ion.sst.dev/install | bash'
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::329599617328:role/aurelius-github
+
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps
+
       - name: Install dependencies
         run: bun install
 
       - name: Run Linter
         run: bun run lint
 
+      # FIXME: In the future, add integration tests as well
       - name: Run Tests
         run: bun run test:unit
