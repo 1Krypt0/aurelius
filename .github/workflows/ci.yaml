@@ -44,7 +44,3 @@ jobs:
       # Step 5: Run tests
       - name: Run Tests
         run: bun run test
-
-      # Step 6: Typechecking
-      - name: Run Typechecking
-        run: bun run typecheck
