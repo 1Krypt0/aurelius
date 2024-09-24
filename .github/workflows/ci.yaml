@@ -9,6 +9,10 @@ on:
       - dev
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
@@ -42,7 +46,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: us-east-2
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::329599617328:role/AureliusRole
 
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
