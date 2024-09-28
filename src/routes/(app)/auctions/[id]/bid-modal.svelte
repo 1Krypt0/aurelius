@@ -7,7 +7,7 @@
 	export let form;
 	export let priceIncrease: number;
 
-	const formattedPriceIncrease = new Intl.NumberFormat('pt-PT', {
+	$: formattedPriceIncrease = new Intl.NumberFormat('pt-PT', {
 		style: 'currency',
 		currency: 'EUR'
 	}).format(priceIncrease);
@@ -22,7 +22,8 @@
 			<Dialog.Header>
 				<Dialog.Title>Place your Bid</Dialog.Title>
 				<Dialog.Description>
-					By making a Bid, you are commited to buy this item if you are the winning bidder.
+					By making a Bid, you are commited to buy this item if you are the winning bidder. Bids can
+					only be made in EUR, and cents will be cut from the bid.
 				</Dialog.Description>
 			</Dialog.Header>
 			<Form.Field {form} name="value">

@@ -10,10 +10,18 @@ import { z } from 'zod';
 import { convertAuctionImageQuery } from '$lib/server/utils';
 
 const bidSchema = createInsertSchema(bidTable, {
-	value: z.number({ invalid_type_error: 'Amount must be a number' }).nonnegative()
+	value: z
+		.number({ invalid_type_error: 'Amount must be a number' })
+		.int({ message: 'Amount must not contain cents' })
+		.nonnegative()
+		.finite()
 }).pick({
 	value: true
 });
+
+const getPriceIncrease = (price: number): number => {
+	return Math.round((price * 1.1 + Number.EPSILON) * 100) / 100;
+};
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const auction = await db
@@ -36,7 +44,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		auction: res[0],
 		user: locals.user,
 		bids,
-		form
+		form,
+		priceIncrease: getPriceIncrease(res[0].product.price)
 	};
 };
 
@@ -72,6 +81,8 @@ export const actions: Actions = {
 				'value',
 				`Value must be higher than the ${previousValue === 0 ? 'starting price' : 'previously highest bid'}`
 			);
+		} else if (value <= getPriceIncrease(previousValue)) {
+			return setError(form, 'value', 'Value must be higher than the minimum required increase');
 		} else {
 			await db.insert(bidTable).values({
 				value: value,
