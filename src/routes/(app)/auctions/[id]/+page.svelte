@@ -16,7 +16,7 @@
 	$: auction = data.auction.product;
 	$: images = data.auction.images;
 	$: bidAmount = data.bids.length;
-	$: priceIncrease = Math.round((auction.price * 1.1 + Number.EPSILON) * 100) / 100;
+	$: priceIncrease = data.priceIncrease;
 </script>
 
 <section class="flex flex-col gap-12 md:flex-row md:gap-24">
