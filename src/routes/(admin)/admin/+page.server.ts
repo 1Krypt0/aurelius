@@ -1,8 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import db from '../../../database/drizzle';
-import { productTable, userTable } from '../../../database/schema';
-import { eq } from 'drizzle-orm';
+import { auctionService } from '$lib/server/auctions';
+import { userService } from '$lib/server/users';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
@@ -14,20 +13,18 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 
 	// NOTE: Probably a redundant check but one that I'm gonna keep for peace of mind
-	const user = await db.select().from(userTable).where(eq(userTable.id, locals.user.id));
+	const user = await userService.getOneById(locals.user.id);
 
-	if (user.length === 0) {
+	if (user === null) {
 		return redirect(302, '/');
 	}
 
-	if (!user[0].isAdmin) {
+	if (!user.isAdmin) {
 		return redirect(302, '/');
 	}
 
-	const auctions = await db
-		.select()
-		.from(productTable)
-		.leftJoin(userTable, eq(productTable.userId, userTable.id));
+	// TODO: Investigate this
+	const auctions = await auctionService.getAllWithUserInfo();
 
 	return {
 		auctions
@@ -40,6 +37,6 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const id = data.get('id') as string;
 
-		await db.delete(productTable).where(eq(productTable.id, id));
+		await auctionService.delete(id);
 	}
 };

@@ -1,13 +1,12 @@
-import { desc, eq } from 'drizzle-orm';
-import db from '../../../../database/drizzle';
-import { bidTable, imageTable, productTable } from '../../../../database/schema';
+import { bidTable } from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
 import { setError, superValidate, fail } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
-import { convertAuctionImageQuery } from '$lib/server/utils';
+import { auctionService } from '$lib/server/auctions';
+import { bidService } from '$lib/server/bids';
 
 const bidSchema = createInsertSchema(bidTable, {
 	value: z
@@ -24,46 +23,37 @@ const getPriceIncrease = (price: number): number => {
 };
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-	const auction = await db
-		.select()
-		.from(productTable)
-		.leftJoin(imageTable, eq(imageTable.productId, productTable.id))
-		.where(eq(productTable.id, params.id));
+	const auction = await auctionService.getOneById(params.id);
 
-	const res = convertAuctionImageQuery(auction);
-
-	if (auction.length === 0) {
+	if (auction === null) {
 		return error(404, 'Auction not found');
 	}
 
-	const bids = await db.select().from(bidTable).where(eq(bidTable.productId, params.id));
+	const bids = await bidService.getBidsByProductId(params.id);
 
 	const form = await superValidate(zod(bidSchema));
 
 	return {
-		auction: res[0],
+		auction,
 		user: locals.user,
 		bids,
 		form,
-		priceIncrease: getPriceIncrease(res[0].product.price)
+		priceIncrease: getPriceIncrease(auction.product.price)
 	};
 };
 
 export const actions: Actions = {
 	default: async ({ request, params, locals }) => {
+		if (!locals.user) {
+			return redirect(302, '/');
+		}
 		const form = await superValidate(request, zod(bidSchema));
 
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 
-		// A redundant check but should be ok
-		const previousBids = await db
-			.select()
-			.from(bidTable)
-			.where(eq(bidTable.productId, params.id))
-			.orderBy(desc(bidTable.value))
-			.limit(1);
+		const previousBids = await bidService.getBidsByProductId(params.id);
 
 		let previousValue;
 
@@ -84,13 +74,13 @@ export const actions: Actions = {
 		} else if (value <= getPriceIncrease(previousValue)) {
 			return setError(form, 'value', 'Value must be higher than the minimum required increase');
 		} else {
-			await db.insert(bidTable).values({
-				value: value,
-				userId: locals.user?.id,
+			await bidService.create({
+				value,
+				userId: locals.user.id,
 				productId: params.id
 			});
 
-			await db.update(productTable).set({ price: value }).where(eq(productTable.id, params.id));
+			await auctionService.update(params.id, { price: value });
 		}
 
 		return { form };

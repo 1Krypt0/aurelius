@@ -1,5 +1,3 @@
-import { and, eq, ne } from 'drizzle-orm';
-import db from '../../../../database/drizzle';
 import { userTable } from '../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
@@ -8,6 +6,7 @@ import { fail, message, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 import { hash, verify } from '@node-rs/argon2';
+import { userService } from '$lib/server/users';
 
 const changePasswordSchema = createInsertSchema(userTable)
 	.pick({
@@ -25,11 +24,16 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		return redirect(302, '/');
 	}
 
-	const user = await db.select().from(userTable).where(eq(userTable.id, params.id));
+	const user = await userService.getOneById(params.id);
+
+	// Sanity check, user should exist here
+	if (user === null) {
+		return redirect(302, '/');
+	}
 
 	const updateUserSchema = createInsertSchema(userTable, {
-		email: (schema) => schema.email.email().default(user[0].email),
-		name: (schema) => schema.name.default(user[0].name)
+		email: (schema) => schema.email.email().default(user.email),
+		name: (schema) => schema.name.default(user.name)
 	}).pick({
 		name: true,
 		email: true
@@ -39,7 +43,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const changePasswordForm = await superValidate(zod(changePasswordSchema));
 
 	return {
-		user: user[0],
+		user: user,
 		updateUserForm,
 		changePasswordForm
 	};
@@ -64,19 +68,16 @@ export const actions: Actions = {
 
 		const { name, email } = form.data;
 
-		const emailInUse = await db
-			.select()
-			.from(userTable)
-			.where(and(eq(userTable.email, email), ne(userTable.id, event.params.id)));
+		const emailInUse = await userService.getOneByEmail(email);
 
-		if (emailInUse.length !== 0) {
+		if (emailInUse !== null) {
 			return setError(form, 'email', 'Email already in use.');
 		}
 
-		await db
-			.update(userTable)
-			.set({ name: name, email: email })
-			.where(eq(userTable.id, event.params.id));
+		await userService.update(event.params.id, {
+			name,
+			email
+		});
 
 		return message(form, 'Data has been updated!');
 	},
@@ -94,12 +95,16 @@ export const actions: Actions = {
 			return setError(form, 'passwordConfirmation', 'Passwords must match');
 		}
 
-		const user = await db
-			.select({ password: userTable.password })
-			.from(userTable)
-			.where(eq(userTable.id, event.params.id));
+		const user = await userService.getOneById(event.params.id);
 
-		const validPassword = await verify(user[0].password, oldPassword, {
+		if (user === null) {
+			const errorMsg = 'User not found!';
+			setError(form, 'oldPassword', errorMsg);
+			setError(form, 'passwordConfirmation', errorMsg);
+			return setError(form, 'password', errorMsg);
+		}
+
+		const validPassword = await verify(user.password, oldPassword, {
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
@@ -117,10 +122,9 @@ export const actions: Actions = {
 			parallelism: 1
 		});
 
-		await db
-			.update(userTable)
-			.set({ password: passwordHash })
-			.where(eq(userTable.id, event.params.id));
+		await userService.update(event.params.id, {
+			password: passwordHash
+		});
 
 		return message(form, 'Password has been updated!');
 	}

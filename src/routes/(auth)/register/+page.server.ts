@@ -5,14 +5,13 @@ import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { createInsertSchema } from 'drizzle-zod';
 
-import db from '../../../database/drizzle';
-import { eq } from 'drizzle-orm';
 import { userTable } from '../../../database/schema';
 
 import { lucia } from '$lib/server/auth';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
 import { z } from 'zod';
+import { userService } from '$lib/server/users';
 
 const registerSchema = createInsertSchema(userTable, {
 	email: (schema) => schema.email.email()
@@ -56,16 +55,13 @@ export const actions: Actions = {
 			parallelism: 1
 		});
 
-		const alreadyExists = await db
-			.select({ email: userTable.email })
-			.from(userTable)
-			.where(eq(userTable.email, email));
+		const alreadyExists = await userService.getOneByEmail(email);
 
-		if (alreadyExists.length !== 0) {
+		if (alreadyExists !== null) {
 			return setError(form, 'email', 'Email already in use.');
 		}
 
-		await db.insert(userTable).values({
+		await userService.create({
 			id,
 			name,
 			email,

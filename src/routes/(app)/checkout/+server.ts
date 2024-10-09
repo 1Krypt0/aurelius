@@ -1,9 +1,7 @@
 import type { RequestHandler } from './$types';
 import stripe from '$lib/server/stripe';
-import db from '../../../database/drizzle';
-import { productTable } from '../../../database/schema';
-import { eq } from 'drizzle-orm';
 import { Resource } from 'sst';
+import { auctionService } from '$lib/server/auctions';
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
@@ -29,7 +27,9 @@ export const POST: RequestHandler = async ({ request }) => {
 				console.log('DATA');
 				console.log(data);
 
-				await db.update(productTable).set({ paid: true }).where(eq(productTable.id, productId));
+				await auctionService.update(productId, {
+					paid: true
+				});
 				break;
 
 			default:

@@ -1,24 +1,20 @@
 import type { PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-import db from '../../../../database/drizzle';
-import { productTable } from '../../../../database/schema';
-import { eq } from 'drizzle-orm';
 import stripe from '$lib/server/stripe';
+import { auctionService } from '$lib/server/auctions';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	if (!locals.user) {
 		return redirect(302, '/');
 	}
 
-	const products = await db.select().from(productTable).where(eq(productTable.id, params.id));
+	const product = await auctionService.getOneById(params.id);
 
-	if (products.length !== 1) {
+	if (product == null) {
 		return redirect(302, '/');
 	}
 
-	const product = products[0];
-
-	if (!product.sold || product.userId !== locals.user.id) {
+	if (!product.product.sold || product.product.userId !== locals.user.id) {
 		return redirect(302, '/');
 	}
 
@@ -27,16 +23,16 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 			{
 				price_data: {
 					currency: 'eur',
-					unit_amount: product.price * 100,
+					unit_amount: product.product.price * 100,
 					product_data: {
-						name: product.name
+						name: product.product.name
 					}
 				},
 				quantity: 1
 			}
 		],
 		metadata: {
-			product_id: product.id
+			product_id: product.product.id
 		},
 		mode: 'payment',
 		success_url: `${url.origin}/checkout/complete?success=true`,

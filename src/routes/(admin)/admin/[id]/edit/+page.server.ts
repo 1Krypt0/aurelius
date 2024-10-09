@@ -1,30 +1,23 @@
-import { eq, inArray } from 'drizzle-orm';
-import db from '../../../../../database/drizzle';
-import { imageTable, productTable } from '../../../../../database/schema';
+import { productTable } from '../../../../../database/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import { createInsertSchema } from 'drizzle-zod';
 import { z } from 'zod';
 import { fail, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { convertAuctionImageQuery } from '$lib/server/utils';
 import { DeleteObjectsCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Resource } from 'sst';
 import { v4 as uuid } from 'uuid';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { auctionService } from '$lib/server/auctions';
+import { imageService } from '$lib/server/images';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const auctions = await db
-		.select()
-		.from(productTable)
-		.leftJoin(imageTable, eq(imageTable.productId, productTable.id))
-		.where(eq(productTable.id, params.id));
+	const auction = await auctionService.getOneById(params.id);
 
-	if (auctions.length === 0) {
+	if (auction === null) {
 		return error(404, 'Auction not found');
 	}
-
-	const auction = convertAuctionImageQuery(auctions)[0];
 
 	const updateAuctionSchema = createInsertSchema(productTable, {
 		name: (schema) => schema.name.default(auction.product.name),
@@ -104,19 +97,15 @@ export const actions: Actions = {
 		const newStartDate = new Date(`${startDate}T${startMinutes}`);
 		const newEndDate = new Date(`${endDate}T${endMinutes}`);
 
-		await db
-			.update(productTable)
-			.set({
-				name,
-				description,
-				price,
-				startDate: newStartDate,
-				endDate: newEndDate
-			})
-			.where(eq(productTable.id, params.id));
+		await auctionService.update(params.id, {
+			name,
+			description,
+			price,
+			startDate: newStartDate,
+			endDate: newEndDate
+		});
 
-		// TODO: Remove old images and import new ones (images, newImages)
-		const oldImages = await db.select().from(imageTable).where(eq(imageTable.productId, params.id));
+		const oldImages = await imageService.getManyByProduct(params.id);
 
 		const client = new S3Client({});
 
@@ -137,12 +126,8 @@ export const actions: Actions = {
 			});
 
 			await client.send(command);
-			await db.delete(imageTable).where(
-				inArray(
-					imageTable.id,
-					IDsToDelete.map((entry) => entry.Key)
-				)
-			);
+
+			await imageService.deleteByArray(IDsToDelete.map((entry) => entry.Key));
 		}
 
 		if (newImages.length > 0) {
@@ -170,7 +155,7 @@ export const actions: Actions = {
 				newURLs.push({ id: imageId, url: imageURL, productId: params.id });
 			}
 
-			await db.insert(imageTable).values(newURLs);
+			await imageService.createMany(newURLs);
 		}
 
 		return redirect(302, '/admin');

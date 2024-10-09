@@ -1,17 +1,17 @@
 import { createInsertSchema } from 'drizzle-zod';
 import type { Actions, PageServerLoad } from './$types';
-import { imageTable, productTable } from '../../../../database/schema';
+import { productTable } from '../../../../database/schema';
 import { z } from 'zod';
 import { fail, setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { generateIdFromEntropySize } from 'lucia';
-import db from '../../../../database/drizzle';
-import { eq } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Resource } from 'sst';
 import { v4 as uuid } from 'uuid';
+import { auctionService } from '$lib/server/auctions';
+import { imageService } from '$lib/server/images';
 //
 // NOTE: Maybe update the limit if not enough for good quality images
 const IMAGE_SIZE_LIMIT = 6_000_000;
@@ -60,16 +60,13 @@ export const actions: Actions = {
 
 		const id = generateIdFromEntropySize(20);
 
-		const alreadyExists = await db
-			.select({ name: productTable.name })
-			.from(productTable)
-			.where(eq(productTable.name, name));
+		const alreadyExists = await auctionService.getOneByName(name);
 
-		if (alreadyExists.length !== 0) {
+		if (alreadyExists !== null) {
 			return setError(form, 'name', 'Name already in use');
 		}
 
-		await db.insert(productTable).values({
+		await auctionService.create({
 			id,
 			name,
 			description,
@@ -105,7 +102,7 @@ export const actions: Actions = {
 			imageURLs.push({ id: imageId, url: imageURL, productId: id });
 		}
 
-		await db.insert(imageTable).values(imageURLs);
+		await imageService.createMany(imageURLs);
 
 		return redirect(302, '/admin');
 	}
