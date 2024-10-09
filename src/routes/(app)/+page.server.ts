@@ -4,7 +4,10 @@ import { auctionService } from '$lib/server/auctions';
 export const load: PageServerLoad = async () => {
 	const SHOWCASE_LIMIT = 3;
 
-	const hotProducts = (await auctionService.getHotAuctions()).slice(0, SHOWCASE_LIMIT);
+	const hotProducts = (await auctionService.getHotAuctions())
+		.slice(0, SHOWCASE_LIMIT)
+		.filter((entry) => entry.bidCount > 10)
+		.map((entry) => entry.product);
 
 	const lastMinuteDeals = (await auctionService.getAuctionsEndingSoon()).slice(0, SHOWCASE_LIMIT);
 

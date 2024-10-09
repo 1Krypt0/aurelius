@@ -5,8 +5,7 @@
 
 	export let data: PageServerData;
 
-	const { lastMinuteDeals, hotProducts: highBids, latestAuctions, upcomingAuctions } = data;
-	const hotProducts = highBids.filter((entry) => entry.bidCount > 10).map((entry) => entry.product);
+	const { lastMinuteDeals, hotProducts, latestAuctions, upcomingAuctions } = data;
 </script>
 
 <div class="flex flex-col gap-24">
