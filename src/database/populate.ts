@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { productTable, type InsertProduct } from './schema';
-import db from './drizzle';
+import { type InsertProduct } from './schema';
+import { auctionService } from '$lib/server/auctions';
 
 const maxPrice = 10_000;
 
@@ -24,6 +24,5 @@ for (let i = 0; i < productAmount; i++) {
 	products.push(createRandomProduct());
 }
 
-await db.insert(productTable).values(products);
-
+await auctionService.createMany(products);
 console.log('Database has been populated with products');
