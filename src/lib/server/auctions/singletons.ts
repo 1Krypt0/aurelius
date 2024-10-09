@@ -1,3 +1,3 @@
-import { AuctionService } from './services/auction.service';
+import { AuctionService } from './auction.service';
 
 export const auctionService = new AuctionService();
