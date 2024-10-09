@@ -9,6 +9,7 @@ export const userTable = pgTable('user', {
 });
 
 export type SelectUser = typeof userTable.$inferSelect;
+export type InsertUser = typeof userTable.$inferInsert;
 
 export const productTable = pgTable('product', {
 	id: text('id').primaryKey(),
@@ -34,6 +35,7 @@ export const imageTable = pgTable('image', {
 });
 
 export type SelectImage = typeof imageTable.$inferSelect;
+export type InsertImage = typeof imageTable.$inferInsert;
 
 export const bidTable = pgTable('bid', {
 	id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
@@ -47,6 +49,7 @@ export const bidTable = pgTable('bid', {
 });
 
 export type SelectBid = typeof bidTable.$inferSelect;
+export type InsertBid = typeof bidTable.$inferInsert;
 
 export const sessionTable = pgTable('session', {
 	id: text('id').primaryKey(),
